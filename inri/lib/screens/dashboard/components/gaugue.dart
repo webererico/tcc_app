@@ -32,7 +32,7 @@ class Gauge extends StatelessWidget {
                       GaugeRange(startValue: 50, endValue: 100, color: Colors.orange),
                       GaugeRange(startValue: 100, endValue: 150, color: Colors.red),
                     ],
-                    pointers: <GaugePointer>[
+                    pointers: const <GaugePointer>[
                       NeedlePointer(
                         value: 100,
                         needleLength: 0.7,
@@ -45,7 +45,7 @@ class Gauge extends StatelessWidget {
                 ],
               ),
             ),
-            Text('20 V')
+            const Text('20 V')
           ],
         ),
       ),

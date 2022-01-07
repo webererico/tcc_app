@@ -86,8 +86,8 @@ class Header extends StatelessWidget {
                   width: 70,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      const Text(
+                    children: const [
+                      Text(
                         'PowerGrid \n Status',
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white, fontSize: 12),

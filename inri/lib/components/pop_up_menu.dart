@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:inri/providers/all.dart';
 import 'package:inri/screens/change_password/change_password_screen.dart';
+import 'package:inri/screens/login/login_screen.dart';
 import 'package:inri/screens/profile/profile_screen.dart';
+import 'package:provider/provider.dart';
 
 enum MenuOptions { profile, password, logout }
 
@@ -41,7 +44,9 @@ class PopUpMenu extends StatelessWidget {
             Navigator.of(context).pushNamed(ChangePasswordScreen.routeNamed);
             break;
           case MenuOptions.logout:
-            // _logout(context);
+            Provider.of<AuthProvider>(context, listen: false)
+                .doLogout()
+                .then((value) => Navigator.of(context).pushReplacementNamed(LoginScreen.routeName));
             break;
           default:
             break;

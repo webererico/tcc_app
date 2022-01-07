@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inri/constants/colors.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class Wind extends StatelessWidget {
@@ -24,7 +25,7 @@ class Wind extends StatelessWidget {
               value: 50,
             ),
           ],
-          barPointers: const [LinearBarPointer(value: 80)],
+          barPointers: const [LinearBarPointer(value: 80,  color: kSuccess,)],
         ),
       ),
     );

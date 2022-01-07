@@ -5,7 +5,6 @@ class TotalEnergyProvider extends BaseProvider{
 
   @override
   void cleanProvider() {
-    // TODO: implement cleanProvider
   }
 
 }

@@ -22,14 +22,14 @@ class BatteryVoltageScreen extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: GestureDetector(
-                    child: CustomContainer(
+                    child: const CustomContainer(
                       label: 'Interval',
                       text: '',
                     ),
                     onTap: () async => _dataPicker(context),
                   ),
                 )),
-            Expanded(
+            const Expanded(
               flex: 7,
               child: BatteryGraph(),
             ),

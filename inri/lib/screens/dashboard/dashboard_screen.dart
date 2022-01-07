@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:inri/components/custom_scaffold.dart';
 import 'package:inri/constants/colors.dart';
-import 'package:inri/screens/battery_voltage/battery_voltage_screen.dart';
 import 'package:inri/screens/dashboard/components/gaugue.dart';
 import 'package:inri/screens/dashboard/components/header.dart';
 import 'package:inri/screens/dashboard/components/power.dart';
@@ -28,7 +27,7 @@ class DashboardScreen extends StatelessWidget {
                 children: [
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
+                    children: const [
                       Gauge(),
                       Power(),
                     ],
@@ -68,8 +67,9 @@ class DashboardScreen extends StatelessWidget {
                     trailing: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text('Lateral Speed', style: TextStyle(color: kError),)
+                      children: const [
+                        Text('Lateral Speed', style: TextStyle(color: kError),),
+                        Text('Top Speed', style: TextStyle(color: kSuccess),)
                       ],
                     ),
                     onTap: () => Navigator.of(context).pushReplacementNamed(WindSpeedTopScreen.routeName),

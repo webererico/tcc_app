@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:inri/components/menu_drawer_tile.dart';
 import 'package:inri/constants/colors.dart';
+import 'package:inri/interfaces/shared_preferences.dart';
 import 'package:inri/screens/battery_voltage/battery_voltage_screen.dart';
 import 'package:inri/screens/dashboard/dashboard_screen.dart';
 import 'package:inri/screens/measured_power/measured_power_screen.dart';
@@ -73,25 +74,32 @@ Widget _buildDrawerHeader(BuildContext context) {
             'assets/png/inri_horizontal.png',
           ),
         ),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'User: name',
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ),
+        FutureBuilder(
+            future: Prefs.userName,
+            builder: (context, snapshot) {
+              return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    snapshot.data == null ? '' : 'User: ${snapshot.data}',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ));
+            }),
         const SizedBox(
           height: 10,
         ),
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'teste@gmail.com',
-            style: const TextStyle(fontSize: 12),
-          ),
-        ),
+        FutureBuilder(
+            future: Prefs.login,
+            builder: (context, snapshot) {
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  snapshot.data == null ? '' : 'Email: ${snapshot.data}',
+                  style: const TextStyle(fontSize: 12),
+                ),
+              );
+            }),
         const SizedBox(
           height: 10,
         ),

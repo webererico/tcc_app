@@ -11,19 +11,16 @@ environment:
   sdk: ">=2.15.0 <3.0.0"
 
 dependencies:
-  cupertino_icons: ^1.0.2
   dio: ^4.0.4
   fl_chart: ^0.40.6
   flutter:
     sdk: flutter
   font_awesome_flutter: ^9.2.0
-  syncfusion_flutter_gauges: ^19.4.41
   provider: ^6.0.1
   shared_preferences: ^2.0.10
+  syncfusion_flutter_gauges: ^19.4.41
   url_launcher: ^6.0.17
   
-
-
 
 
 dev_dependencies:

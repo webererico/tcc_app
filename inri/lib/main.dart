@@ -4,7 +4,6 @@ import 'package:inri/interfaces/shared_preferences.dart';
 import 'package:inri/providers.dart';
 import 'package:inri/repositories/repository.dart';
 import 'package:inri/routes.dart';
-import 'package:inri/screens/dashboard/dashboard_screen.dart';
 import 'package:inri/screens/login/login_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
         title: 'INRI',
         theme: theme,
         routes: routes,
-        home: const DashboardScreen(),
+        home: const LoginScreen(),
       ),
     );
   }

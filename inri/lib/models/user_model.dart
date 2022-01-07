@@ -1,13 +1,25 @@
 import 'dart:convert';
 
 class UserModel {
-  String name;
-  String occupation;
-  String email;
+  String? name;
+  String? occupation;
+  String? email;
   String? password;
+  String? contact;
+  String? course;
   bool? isAdmin;
+  String? registerKey;
 
-  UserModel(this.name, this.email, this.occupation, this.password, this.isAdmin);
+  UserModel({
+    this.name,
+    this.email,
+    this.occupation,
+    this.password,
+    this.isAdmin,
+    this.contact,
+    this.course,
+    this.registerKey,
+  });
 
   Map<String, dynamic> toMap() {
     return {
@@ -15,17 +27,22 @@ class UserModel {
       'occupation': occupation,
       'email': email,
       'password': password,
-      'isAdmin': isAdmin,
+      'contact_number': contact,
+      'course': course,
+      'is_admin': isAdmin,
+      'register_key': registerKey,
     };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      map['name'] ?? '',
-      map['occupation'] ?? '',
-      map['email'] ?? '',
-      map['password'],
-      map['isAdmin'],
+      name: map['name'],
+      occupation: map['occupation'],
+      email: map['email'],
+      password: map['password'],
+      contact: map['contact_number'],
+      course: map['course'],
+      isAdmin: map['is_admin'] == 1 ? true : false,
     );
   }
 
