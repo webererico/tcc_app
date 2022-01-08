@@ -74,7 +74,10 @@ class DashboardScreen extends StatelessWidget {
                     ),
                     onTap: () => Navigator.of(context).pushReplacementNamed(WindSpeedTopScreen.routeName),
                   ),
-                  const Wind(),
+                  const Wind(
+                    lateralSpeed: 10,
+                    topSpeed: 20,
+                  ),
                   const SizedBox(height: 5),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),

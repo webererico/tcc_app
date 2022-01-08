@@ -7,6 +7,7 @@ import 'package:inri/routes.dart';
 import 'package:inri/screens/login/login_screen.dart';
 import 'package:provider/provider.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Repository.init();
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         title: 'INRI',
         theme: theme,
         routes: routes,
+        navigatorKey: navigatorKey,
         home: const LoginScreen(),
       ),
     );

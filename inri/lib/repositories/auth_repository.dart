@@ -43,4 +43,15 @@ class AuthRepository extends BaseRepository {
       throw e.response?.data['message'];
     }
   }
+
+  Future delete() async {
+    try {
+      await dio.get(
+        'delete',
+        options: Options(headers: {'Authorization': await Prefs.accessToken}),
+      );
+    } on DioError catch (e) {
+      throw e.response?.data['message'];
+    }
+  }
 }

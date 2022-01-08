@@ -4,6 +4,8 @@ import 'package:inri/components/text_input.dart';
 import 'package:inri/constants/colors.dart';
 import 'package:inri/models/user_model.dart';
 import 'package:inri/providers/all.dart';
+import 'package:inri/screens/login/login_screen.dart';
+import 'package:inri/utils/snackbar_message.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -142,7 +144,15 @@ _deleteAccountMenu(BuildContext context) {
               ListTile(
                 leading: const Icon(Icons.delete),
                 title: const Text('Confirm'),
-                onTap: () {},
+                onTap: () => Provider.of<AuthProvider>(context, listen: false)
+                    .delete()
+                    .catchError(
+                      (onError) => showSnackbar(context, onError.toString(), messageType.ERROR),
+                    )
+                    .then((value) {
+                  showSnackbar(context, 'Profile Deleted!', messageType.SUCCESS);
+                  return Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
+                }),
               ),
               ListTile(
                 leading: const Icon(Icons.cancel),

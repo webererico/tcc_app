@@ -50,12 +50,27 @@ class AuthProvider extends BaseProvider {
 
   Future doLogout() async {
     await _authRepository.logout();
+    await deleteLocalData();
+  }
+
+  Future delete() async {
+    toggleLoading();
+    try {
+      await _authRepository.delete();
+      await deleteLocalData();
+    } catch (e) {
+      rethrow;
+    } finally {
+      toggleLoading();
+    }
+  }
+
+  Future deleteLocalData() async {
     await Prefs.removeSaveCredentials;
     await Prefs.removeLogin;
     await Prefs.removePassword;
   }
 
   @override
-  void cleanProvider() {
-  }
+  void cleanProvider() {}
 }
