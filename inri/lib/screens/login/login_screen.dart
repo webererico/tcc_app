@@ -60,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         TextInput(
                           controller: _passwordController,
                           label: 'Password',
-                          hintText: '****',
+                          hintText: '********',
                           obscureText: true,
                         ),
                         const SizedBox(height: 20),
@@ -77,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     .doLogin(_emailController.text, _passwordController.text, _saveCredentials)
                                     .then((value) =>
                                         Navigator.of(context).pushReplacementNamed(DashboardScreen.routeName))
-                                    .catchError((onError) => showSnackbar(context, onError, messageType.ERROR));
+                                    .catchError((onError) => showSnackbar(context, onError.toString(), messageType.ERROR));
                               },
                               elevation: 0,
                             );

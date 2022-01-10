@@ -7,8 +7,8 @@ class AuthRepository extends BaseRepository {
   Future login(String email, String password) async {
     try {
       var _response = await dio.post('login', data: {'email': email, 'password': password});
-      List<String> _token = _response.data['access_token'].toString().split('|');
-      await Prefs.setAccessToken(_token[1]);
+      List<String> tokenList = _response.data['access_token'].toString().split('|');
+      await Prefs.setAccessToken(tokenList[1]);
       await Prefs.setUserId(_response.data['data']['id']);
       await Prefs.setUserName(_response.data['data']['name']);
     } on DioError catch (e) {

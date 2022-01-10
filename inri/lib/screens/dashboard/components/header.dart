@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:inri/components/loader.dart';
 import 'package:inri/constants/colors.dart';
+import 'package:inri/models/system_status_model.dart';
+import 'package:inri/providers/dashboard_provider.dart';
 import 'package:inri/services/weather_service.dart';
+import 'package:inri/utils/formatters/date_formater.dart';
+import 'package:inri/utils/snackbar_message.dart';
+import 'package:provider/provider.dart';
 import 'package:weather/weather.dart';
 
 class Header extends StatelessWidget {
@@ -70,61 +75,70 @@ class Header extends StatelessWidget {
               ),
               Expanded(
                 flex: 4,
-                child: Row(
-                  children: [
-                    const SizedBox(width: 15),
-                    Card(
-                      color: kSecondaryColor,
-                      elevation: 0,
-                      child: Container(
-                        width: 70,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: const [
-                            Text(
-                              'Inversor \n Status',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.white, fontSize: 12),
+                child: FutureBuilder<SystemStatusModel>(
+                  future: Provider.of<DashboardProvider>(context, listen: false).fetchStatus(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState != ConnectionState.done)
+                      return const Center(
+                        child: Loader(),
+                      );
+                    return Row(
+                      children: [
+                        const SizedBox(width: 15),
+                        Card(
+                          color: kSecondaryColor,
+                          elevation: 0,
+                          child: Container(
+                            width: 70,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                const Text(
+                                  'Inversor \n Status',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Colors.white, fontSize: 12),
+                                ),
+                                _status(
+                                  snapshot.data!.inversor.status,
+                                  context,
+                                  snapshot.data!.inversor.createdAt,
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                              ],
                             ),
-                            Icon(
-                              Icons.error,
-                              color: kError,
-                            ),
-                            Text(
-                              '14:55',
-                              style: TextStyle(fontSize: 10, color: Colors.white),
-                            )
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(width: 15),
-                    Card(
-                      color: kSecondaryColor,
-                      elevation: 0,
-                      child: Container(
-                        width: 70,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: const [
-                            Text(
-                              'PowerGrid \n Status',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.white, fontSize: 12),
+                        const SizedBox(width: 15),
+                        Card(
+                          color: kSecondaryColor,
+                          elevation: 0,
+                          child: Container(
+                            width: 70,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                const Text(
+                                  'PowerGrid \n Status',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Colors.white, fontSize: 12),
+                                ),
+                                _status(
+                                  snapshot.data!.powerGrid.status,
+                                  context,
+                                  snapshot.data!.powerGrid.createdAt,
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                              ],
                             ),
-                            Icon(
-                              Icons.check_circle_sharp,
-                              color: kSuccess,
-                            ),
-                            Text(
-                              '14:55',
-                              style: TextStyle(fontSize: 10, color: Colors.white),
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
+                          ),
+                        )
+                      ],
+                    );
+                  },
                 ),
               )
             ],
@@ -133,4 +147,17 @@ class Header extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _status(bool status, BuildContext context, DateTime date) {
+  return GestureDetector(
+    onTap: () => showSnackbar(
+        context,
+        status ? 'Status: normal' : 'Status: Error detected at ${dateFormat.format(date)}',
+        status ? messageType.SUCCESS : messageType.ERROR),
+    child: Icon(
+      status ? Icons.check_circle_sharp : Icons.cancel,
+      color: status ? kSuccess : kError,
+    ),
+  );
 }

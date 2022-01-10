@@ -82,7 +82,7 @@ Widget _buildDrawerHeader(BuildContext context) {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     snapshot.data == null ? '' : 'User: ${snapshot.data}',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold, color: kSecondaryColor),
                   ));
             }),
         const SizedBox(

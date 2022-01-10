@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:inri/constants/colors.dart';
+import 'package:inri/models/battery_voltage_model.dart';
 import 'package:inri/screens/battery_voltage/battery_voltage_screen.dart';
+import 'package:inri/utils/formatters/date_formater.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class Gauge extends StatelessWidget {
-  const Gauge({Key? key}) : super(key: key);
+  final BatteryVoltageModel batteryVoltage;
+
+  const Gauge({required this.batteryVoltage});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +49,29 @@ class Gauge extends StatelessWidget {
                 ],
               ),
             ),
-            const Text('20 V')
+            Text('${batteryVoltage.average} V'),
+            const SizedBox(
+              width: 5,
+            ),
+            Row(
+              children: [
+                Text(
+                  'Min: ${batteryVoltage.min}',
+                  style: const TextStyle(fontSize: 10, color: kTextGreyDark),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  'Max: ${batteryVoltage.max}',
+                  style: const TextStyle(fontSize: 10, color: kTextGreyDark),
+                ),
+              ],
+            ),
+            Text(
+              '${dateFormat.format(batteryVoltage.createdAt!)}',
+              style: const TextStyle(fontSize: 10, color: kTextGreyDark),
+            ),
           ],
         ),
       ),
