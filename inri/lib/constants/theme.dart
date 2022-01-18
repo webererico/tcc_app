@@ -9,6 +9,14 @@ final theme = ThemeData(
     actionsIconTheme: IconThemeData(color: kSecondaryColor),
     iconTheme: IconThemeData(color: kSecondaryColor),
   ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all(kSecondaryColor),
+      elevation: MaterialStateProperty.all(0),
+      padding: MaterialStateProperty.all(const EdgeInsets.all(2)),
+      visualDensity: VisualDensity.compact
+    )
+  ),
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
     elevation: 0,
     backgroundColor: kPrimaryColor,

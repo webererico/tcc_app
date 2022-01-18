@@ -21,8 +21,7 @@ class _BatteryGraphState extends State<BatteryGraph> {
 
   @override
   Widget build(BuildContext context) {
-    final List<FlSpot> _spots = widget.data.map((element) => FlSpot(element.min!, element.max!)).toList();
-
+    final List<FlSpot> _spots = widget.data.map((element) => FlSpot(element.average!, widget.data.indexOf(element).toDouble())).toList();
     return Stack(
       children: <Widget>[
         AspectRatio(

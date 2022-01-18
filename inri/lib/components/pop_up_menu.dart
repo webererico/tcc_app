@@ -45,7 +45,7 @@ class PopUpMenu extends StatelessWidget {
             break;
           case MenuOptions.logout:
             Provider.of<AuthProvider>(context, listen: false)
-                .doLogout()
+                .doLogout().catchError((value) => Navigator.of(context).pushReplacementNamed(LoginScreen.routeName))
                 .then((value) => Navigator.of(context).pushReplacementNamed(LoginScreen.routeName));
             break;
           default:

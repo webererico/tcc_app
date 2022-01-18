@@ -26,15 +26,11 @@ class Gauge extends StatelessWidget {
                 axes: <RadialAxis>[
                   RadialAxis(
                     minimum: 0,
-                    maximum: 150,
+                    maximum: 13.5,
                     ranges: <GaugeRange>[
-                      GaugeRange(
-                        startValue: 0,
-                        endValue: 50,
-                        color: Colors.green,
-                      ),
-                      GaugeRange(startValue: 50, endValue: 100, color: Colors.orange),
-                      GaugeRange(startValue: 100, endValue: 150, color: Colors.red),
+                      GaugeRange(startValue: 0, endValue: 10.5, color: Colors.red),
+                      GaugeRange(startValue: 10.5, endValue: 12, color: Colors.green),
+                      GaugeRange(startValue: 12, endValue: 13.5, color: Colors.yellow),
                     ],
                     pointers: const <GaugePointer>[
                       NeedlePointer(

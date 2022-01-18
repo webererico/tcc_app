@@ -10,7 +10,7 @@ import 'package:inri/screens/dashboard/components/header.dart';
 import 'package:inri/screens/dashboard/components/power.dart';
 import 'package:inri/screens/dashboard/components/wind.dart';
 import 'package:inri/screens/wind_direction/wind_direction_screen.dart';
-import 'package:inri/screens/wind_speed/wind_speed_top_screen.dart';
+import 'package:inri/screens/wind_speed/wind_speed_screen.dart';
 import 'package:inri/utils/formatters/date_formater.dart';
 import 'package:provider/provider.dart';
 
@@ -75,7 +75,7 @@ class DashboardScreen extends StatelessWidget {
                               )
                             ],
                           ),
-                          onTap: () => Navigator.of(context).pushReplacementNamed(WindSpeedTopScreen.routeName),
+                          onTap: () => Navigator.of(context).pushReplacementNamed(windSpeedScreen.routeName),
                         ),
                         Wind(
                           lateralSpeed: snapshot.data!.windLateral.average!,

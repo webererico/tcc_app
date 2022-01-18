@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:inri/components/all_data_tile.dart';
 import 'package:inri/components/custom_container.dart';
 import 'package:inri/components/custom_scaffold.dart';
 import 'package:inri/components/loader.dart';
+import 'package:inri/constants/data_type.dart';
 import 'package:inri/constants/theme.dart';
 import 'package:inri/models/battery_voltage_model.dart';
 import 'package:inri/providers/all.dart';
-import 'package:inri/screens/battery_voltage/components/battery_graph.dart';
+import 'package:inri/screens/battery_voltage/components/graph.dart';
 import 'package:provider/provider.dart';
 
 class BatteryVoltageScreen extends StatelessWidget {
@@ -29,21 +31,31 @@ class BatteryVoltageScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Expanded(
-                      flex: 1,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 40),
-                        child: GestureDetector(
-                          child: const CustomContainer(
-                            label: 'Interval',
-                            text: '',
-                          ),
-                          onTap: () async => _dataPicker(context),
+                    flex: 1,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 40),
+                      child: GestureDetector(
+                        child: const CustomContainer(
+                          label: 'Interval',
+                          text: '',
                         ),
-                      )),
+                        onTap: () async => _dataPicker(context),
+                      ),
+                    ),
+                  ),
                   Expanded(
                     flex: 7,
-                    child: BatteryGraph(snapshot.data!),
+                    child:
+
+                        //  DashPatternLineChart(
+                        //   data: snapshot.data!,
+                        // ),
+                        // BatteryGraph(snapshot.data!),
+                        BatteryGraph(),
                   ),
+                  const AllDataTile(
+                    dataType: DataType.battery,
+                  )
                 ],
               ),
             );
