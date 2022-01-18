@@ -47,56 +47,59 @@ class _LoginScreenState extends State<LoginScreen> {
             FutureBuilder(
               future: initData(),
               builder: (context, snapshot) {
-              return Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    TextInput(
-                      controller: _emailController,
-                      label: 'Email',
-                      hintText: 'example@email.com',
-                    ),
-                    const SizedBox(height: 20),
-                    TextInput(
-                      controller: _passwordController,
-                      label: 'Password',
-                      hintText: '****',
-                      obscureText: true,
-                    ),
-                    const SizedBox(height: 20),
-                    SaveCredentials(
-                        value: _saveCredentials, onChanged: (value) => setState(() => _saveCredentials = value)),
-                    const SizedBox(height: 40),
-                    Consumer<AuthProvider>(
-                      builder: (context, auth, _) {
-                        if (auth.isLoading) return const Loader();
-                        return FloatingActionButton.extended(
-                          label: const Text('Login'),
-                          onPressed: () {
-                            auth
-                                .doLogin(_emailController.text, _passwordController.text, _saveCredentials)
-                                .then((value) => Navigator.of(context).pushReplacementNamed(DashboardScreen.routeName))
-                                .catchError((onError) => showSnackbar(context, onError, messageType.ERROR));
-                          },
-                          elevation: 0,
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () => Navigator.of(context).pushNamed(RegisterScreen.routeName),
-                      child: const Text(
-                        'Criar conta',
-                        style: TextStyle(
-                          color: kSecondaryColor,
-                          decoration: TextDecoration.underline,
-                        ),
+                return Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      TextInput(
+                        controller: _emailController,
+                        label: 'Email',
+                        hintText: 'example@email.com',
                       ),
-                    )
-                  ],
-                ),
-              );
-            })
+                      const SizedBox(height: 20),
+                      TextInput(
+                        controller: _passwordController,
+                        label: 'Password',
+                        hintText: '********',
+                        obscureText: true,
+                      ),
+                      const SizedBox(height: 20),
+                      SaveCredentials(
+                          value: _saveCredentials, onChanged: (value) => setState(() => _saveCredentials = value)),
+                      const SizedBox(height: 40),
+                      Consumer<AuthProvider>(
+                        builder: (context, auth, _) {
+                          if (auth.isLoading) return const Loader();
+                          return FloatingActionButton.extended(
+                            label: const Text('Login'),
+                            onPressed: () {
+                              auth
+                                  .doLogin(_emailController.text, _passwordController.text, _saveCredentials)
+                                  .then(
+                                      (value) => Navigator.of(context).pushReplacementNamed(DashboardScreen.routeName))
+                                  .catchError(
+                                      (onError) => showSnackbar(context, onError.toString(), messageType.ERROR));
+                            },
+                            elevation: 0,
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      GestureDetector(
+                        onTap: () => Navigator.of(context).pushNamed(RegisterScreen.routeName),
+                        child: const Text(
+                          'Criar conta',
+                          style: TextStyle(
+                            color: kSecondaryColor,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
+            )
           ],
         ),
       ),

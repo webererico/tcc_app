@@ -8,8 +8,7 @@ import 'package:inri/screens/dashboard/dashboard_screen.dart';
 import 'package:inri/screens/measured_power/measured_power_screen.dart';
 import 'package:inri/screens/total_energy/total_energy_screen.dart';
 import 'package:inri/screens/wind_direction/wind_direction_screen.dart';
-import 'package:inri/screens/wind_speed/wind_speed_lateral_screen.dart';
-import 'package:inri/screens/wind_speed/wind_speed_top_screen.dart';
+import 'package:inri/screens/wind_speed/wind_speed_screen.dart';
 
 class MenuDrawer extends StatelessWidget {
   const MenuDrawer({Key? key}) : super(key: key);
@@ -48,13 +47,8 @@ class MenuDrawer extends StatelessWidget {
             ),
             MenuDrawerTile(
               icon: FontAwesomeIcons.wind,
-              onPressed: () => Navigator.of(context).pushReplacementNamed(WindSpeedTopScreen.routeName),
-              title: 'Wind Speed Top',
-            ),
-            MenuDrawerTile(
-              icon: FontAwesomeIcons.wind,
-              onPressed: () => Navigator.of(context).pushReplacementNamed(WindSpeedLateralScreen.routeName),
-              title: 'Wind Speed Lateral',
+              onPressed: () => Navigator.of(context).pushReplacementNamed(windSpeedScreen.routeName),
+              title: 'Wind Speed',
             ),
           ],
         ),
@@ -82,7 +76,7 @@ Widget _buildDrawerHeader(BuildContext context) {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     snapshot.data == null ? '' : 'User: ${snapshot.data}',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold, color: kSecondaryColor),
                   ));
             }),
         const SizedBox(

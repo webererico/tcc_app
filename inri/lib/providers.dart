@@ -1,4 +1,5 @@
 import 'package:inri/providers/all.dart';
+import 'package:inri/providers/dashboard_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -9,4 +10,5 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (_) => TotalEnergyProvider()),
   ChangeNotifierProvider(create: (_) => UserProvider()),
   ChangeNotifierProvider(create: (_) => WindProvider()),
+  ChangeNotifierProvider(create: (_) => DashboardProvider())
 ];

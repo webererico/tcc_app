@@ -1,9 +1,11 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:inri/constants/colors.dart';
+import 'package:inri/models/battery_voltage_model.dart';
 
 class BatteryGraph extends StatefulWidget {
-  const BatteryGraph({Key? key}) : super(key: key);
+  final List<BatteryVoltageModel> data;
+  const BatteryGraph(this.data);
 
   @override
   _BatteryGraphState createState() => _BatteryGraphState();
@@ -15,10 +17,11 @@ class _BatteryGraphState extends State<BatteryGraph> {
     const Color(0xff02d39a),
   ];
 
-  bool showAvg = false;
+  bool showAvg = true;
 
   @override
   Widget build(BuildContext context) {
+    final List<FlSpot> _spots = widget.data.map((element) => FlSpot(element.average!, widget.data.indexOf(element).toDouble())).toList();
     return Stack(
       children: <Widget>[
         AspectRatio(
@@ -27,7 +30,7 @@ class _BatteryGraphState extends State<BatteryGraph> {
             child: Padding(
               padding: const EdgeInsets.only(right: 18.0, left: 12.0, top: 24, bottom: 12),
               child: LineChart(
-                showAvg ? avgData() : mainData(),
+                showAvg ? avgData(_spots) : mainData(),
               ),
             ),
           ),
@@ -123,7 +126,7 @@ class _BatteryGraphState extends State<BatteryGraph> {
     );
   }
 
-  LineChartData avgData() {
+  LineChartData avgData(List<FlSpot> spots) {
     return LineChartData(
       lineTouchData: LineTouchData(enabled: false),
       gridData: FlGridData(
@@ -186,15 +189,7 @@ class _BatteryGraphState extends State<BatteryGraph> {
       maxY: 6,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 3.44),
-            FlSpot(2.6, 3.44),
-            FlSpot(4.9, 3.44),
-            FlSpot(6.8, 3.44),
-            FlSpot(8, 3.44),
-            FlSpot(9.5, 3.44),
-            FlSpot(11, 3.44),
-          ],
+          spots: spots,
           isCurved: true,
           colors: [
             ColorTween(begin: gradientColors[0], end: gradientColors[1]).lerp(0.2)!,

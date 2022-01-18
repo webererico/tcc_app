@@ -7,8 +7,8 @@ class AuthRepository extends BaseRepository {
   Future login(String email, String password) async {
     try {
       var _response = await dio.post('login', data: {'email': email, 'password': password});
-      List<String> _token = _response.data['access_token'].toString().split('|');
-      await Prefs.setAccessToken(_token[1]);
+      List<String> tokenList = _response.data['access_token'].toString().split('|');
+      await Prefs.setAccessToken(tokenList[1]);
       await Prefs.setUserId(_response.data['data']['id']);
       await Prefs.setUserName(_response.data['data']['name']);
     } on DioError catch (e) {
@@ -39,6 +39,17 @@ class AuthRepository extends BaseRepository {
         data: {'current_password': currentPassword, 'new_password': newPassword},
       );
       return _response.data['message'];
+    } on DioError catch (e) {
+      throw e.response?.data['message'];
+    }
+  }
+
+  Future delete() async {
+    try {
+      await dio.get(
+        'delete',
+        options: Options(headers: {'Authorization': await Prefs.accessToken}),
+      );
     } on DioError catch (e) {
       throw e.response?.data['message'];
     }
