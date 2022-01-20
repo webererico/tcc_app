@@ -10,53 +10,49 @@ class Wind extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double bigger = lateralSpeed > topSpeed ? lateralSpeed : topSpeed;
-    return Center(
-        child: Row(
-      children: [
-        Expanded(
-          flex: 8,
-          child: Container(
-            margin: const EdgeInsets.all(20),
-            child: SfLinearGauge(
-              maximum: bigger + 5,
-              animateAxis: true,
-              animateRange: true,
-              showLabels: true,
-              ranges: [
-                LinearGaugeRange(
-                  startValue: 0,
-                  endValue: lateralSpeed,
-                ),
-              ],
-              markerPointers: [
-                LinearShapePointer(
-                  value: lateralSpeed,
-                ),
-              ],
-              barPointers: [
-                LinearBarPointer(
-                  value: topSpeed,
-                  color: kSuccess,
-                )
-              ],
+    return GestureDetector(
+      child: Center(
+          child: Row(
+        children: [
+          Expanded(
+            flex: 8,
+            child: Container(
+              margin: const EdgeInsets.all(10),
+              child: SfLinearGauge(
+                maximum: (bigger + 3).toInt().toDouble(),
+                animateAxis: true,
+                animateRange: true,
+                showLabels: true,
+                showAxisTrack: true,
+                ranges: [
+                  LinearGaugeRange(startValue: 0, endValue: lateralSpeed),
+                ],
+                tickPosition: LinearElementPosition.inside,
+                barPointers: [
+                  LinearBarPointer(
+                    value: topSpeed,
+                    color: kSuccess,
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        Expanded(
-            flex: 2,
-            child: Column(
-              children: [
-                Text(
-                  lateralSpeed.toString() + ' m/s',
-                  style: const TextStyle(color: kError),
-                ),
-                Text(
-                  topSpeed.toString() + ' m/s',
-                  style: const TextStyle(color: kSuccess),
-                ),
-              ],
-            ))
-      ],
-    ));
+          Expanded(
+              flex: 2,
+              child: Column(
+                children: [
+                  Text(
+                    lateralSpeed.toString() + ' m/s',
+                    style: const TextStyle(color: kError),
+                  ),
+                  Text(
+                    topSpeed.toString() + ' m/s',
+                    style: const TextStyle(color: kSuccess),
+                  ),
+                ],
+              ))
+        ],
+      )),
+    );
   }
 }

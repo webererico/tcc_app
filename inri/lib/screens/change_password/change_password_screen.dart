@@ -4,7 +4,7 @@ import 'package:inri/components/text_input.dart';
 import 'package:inri/constants/colors.dart';
 import 'package:inri/providers/all.dart';
 import 'package:inri/utils/snackbar_message.dart';
-import 'package:inri/utils/validators/password_validator.dart';
+import 'package:inri/utils/validators/field_validators.dart';
 import 'package:provider/provider.dart';
 
 class ChangePasswordScreen extends StatelessWidget {

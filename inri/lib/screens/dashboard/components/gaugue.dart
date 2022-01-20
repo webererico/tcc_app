@@ -29,16 +29,16 @@ class Gauge extends StatelessWidget {
                     maximum: 13.5,
                     ranges: <GaugeRange>[
                       GaugeRange(startValue: 0, endValue: 10.5, color: Colors.red),
-                      GaugeRange(startValue: 10.5, endValue: 12, color: Colors.green),
+                      GaugeRange(startValue: 10.5, endValue: 11.99, color: Colors.green),
                       GaugeRange(startValue: 12, endValue: 13.5, color: Colors.yellow),
                     ],
-                    pointers: const <GaugePointer>[
+                    pointers: <GaugePointer>[
                       NeedlePointer(
-                        value: 100,
+                        value: batteryVoltage.average!,
                         needleLength: 0.7,
                         needleStartWidth: 1,
                         needleEndWidth: 3,
-                        tailStyle: TailStyle(color: kSecondaryColor, width: 1),
+                        tailStyle: const TailStyle(color: kSecondaryColor, width: 1),
                       )
                     ],
                   ),

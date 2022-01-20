@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:inri/constants/data_type.dart';
 import 'package:inri/models/dashboard_model.dart';
 import 'package:inri/models/system_status_model.dart';
@@ -9,25 +10,29 @@ class DashboardProvider extends BaseProvider {
   DataType _dataType = DataType.battery;
 
   DataType get dataType => _dataType;
-  set dataType(DataType type){
+  set dataType(DataType type) {
     _dataType = type;
     notifyListeners();
   }
 
   Future<DashboardModel> fetchDashboard() async {
-    try{
+    try {
       return await _repository.fetchDashboard();
-    }catch(e){
+    } catch (e) {
       rethrow;
     }
   }
 
   Future<SystemStatusModel> fetchStatus() async {
-    try{
+    try {
       return await _repository.fetchStatus();
-    } catch (e){ 
+    } catch (e) {
       rethrow;
     }
+  }
+
+  Future exportData(String variableName, DateTimeRange date) async {
+    
   }
 
   @override

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:inri/components/all_data_tile.dart';
+import 'package:inri/components/custom_card.dart';
 import 'package:inri/components/custom_scaffold.dart';
 import 'package:inri/components/loader.dart';
 import 'package:inri/constants/colors.dart';
@@ -9,7 +11,6 @@ import 'package:inri/providers/measured_power_provider.dart';
 import 'package:inri/screens/measured_power/components/power_graph.dart';
 import 'package:inri/utils/formatters/date_formater.dart';
 import 'package:provider/provider.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 class MeasuredPowerScreen extends StatefulWidget {
   static const routeName = '/measured-power-screen';
@@ -22,7 +23,6 @@ class MeasuredPowerScreen extends StatefulWidget {
 
 class _MeasuredPowerScreenState extends State<MeasuredPowerScreen> {
   late List<_ChartData> data;
-  late TooltipBehavior _tooltip;
   @override
   void initState() {
     data = [
@@ -32,7 +32,6 @@ class _MeasuredPowerScreenState extends State<MeasuredPowerScreen> {
       _ChartData('BRZ', 6.4),
       _ChartData('IND', 14)
     ];
-    _tooltip = TooltipBehavior(enable: true);
     super.initState();
   }
 
@@ -46,7 +45,17 @@ class _MeasuredPowerScreenState extends State<MeasuredPowerScreen> {
             if (snapshot.connectionState != ConnectionState.done) return const Center(child: Loader());
             return Container(
               child: Column(
-                children: [PowerGraph(snapshot.data!), const AllDataTile(dataType: DataType.power)],
+                children: [
+                  CustomCard(
+                    snapshot.data!.last,
+                    leading: const FaIcon(
+                      FontAwesomeIcons.plug,
+                      color: kSecondaryColor,
+                    ),
+                  ),
+                  PowerGraph(snapshot.data!),
+                  const AllDataTile(dataType: DataType.power),
+                ],
               ),
             );
           }),

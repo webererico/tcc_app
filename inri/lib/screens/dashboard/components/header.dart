@@ -110,17 +110,17 @@ class Header extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 15),
+                        const SizedBox(width: 10),
                         Card(
                           color: kSecondaryColor,
                           elevation: 0,
                           child: Container(
-                            width: 70,
+                            width: 80,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 const Text(
-                                  'PowerGrid \n Status',
+                                  'Weather Station \n Status',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(color: Colors.white, fontSize: 12),
                                 ),

@@ -11,12 +11,14 @@ class DashboardModel {
   TotalEnergyModel totalEnergy;
   WindModel windLateral;
   WindModel windTop;
+  WindModel windDirection;
 
   DashboardModel(
       {required this.power,
       required this.batteryVoltage,
       required this.totalEnergy,
       required this.windLateral,
+      required this.windDirection,
       required this.windTop});
 
   Map<String, dynamic> toMap() {
@@ -26,17 +28,18 @@ class DashboardModel {
       'total_energy': totalEnergy.toMap(),
       'wind_lateral': windLateral.toMap(),
       'wind_top': windTop.toMap(),
+      'wind_direction': windDirection.toMap()
     };
   }
 
   factory DashboardModel.fromMap(Map<String, dynamic> map) {
     return DashboardModel(
-      power: PowerModel.fromMap(map['power']),
-      batteryVoltage: BatteryVoltageModel.fromMap(map['battery_voltage']),
-      totalEnergy: TotalEnergyModel.fromMap(map['total_energy']),
-      windLateral: WindModel.fromMap(map['wind_lateral']),
-      windTop: WindModel.fromMap(map['wind_top']),
-    );
+        power: PowerModel.fromMap(map['power']),
+        batteryVoltage: BatteryVoltageModel.fromMap(map['battery_voltage']),
+        totalEnergy: TotalEnergyModel.fromMap(map['total_energy']),
+        windLateral: WindModel.fromMap(map['wind_lateral']),
+        windTop: WindModel.fromMap(map['wind_top']),
+        windDirection: WindModel.fromMap(map['wind_direction']));
   }
 
   String toJson() => json.encode(toMap());

@@ -5,6 +5,7 @@ import 'package:inri/constants/colors.dart';
 import 'package:inri/interfaces/shared_preferences.dart';
 import 'package:inri/screens/battery_voltage/battery_voltage_screen.dart';
 import 'package:inri/screens/dashboard/dashboard_screen.dart';
+import 'package:inri/screens/export/export_screen.dart';
 import 'package:inri/screens/measured_power/measured_power_screen.dart';
 import 'package:inri/screens/total_energy/total_energy_screen.dart';
 import 'package:inri/screens/wind_direction/wind_direction_screen.dart';
@@ -49,6 +50,11 @@ class MenuDrawer extends StatelessWidget {
               icon: FontAwesomeIcons.wind,
               onPressed: () => Navigator.of(context).pushReplacementNamed(windSpeedScreen.routeName),
               title: 'Wind Speed',
+            ),
+            MenuDrawerTile(
+              icon: FontAwesomeIcons.fileExport,
+              onPressed: () => Navigator.of(context).pushReplacementNamed(ExportScreen.routeName),
+              title: 'Export Data',
             ),
           ],
         ),

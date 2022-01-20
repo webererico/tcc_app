@@ -31,4 +31,18 @@ class WindRepository extends BaseRepository {
       throw e.response?.data['message'];
     }
   }
+
+   Future<List<WindModel>> fetchDirection() async {
+    try {
+      List<WindModel> batteryList = [];
+      final _response = await dio.get('/wind/direction', options: Options(headers: {'Authorization': await Prefs.accessToken}));
+      (_response.data['data'] as Map).forEach((key, value) {
+        return batteryList.add(WindModel.fromMap(value));
+      });
+
+      return batteryList;
+    } on DioError catch (e) {
+      throw e.response?.data['message'];
+    }
+  }
 }

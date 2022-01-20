@@ -20,8 +20,12 @@ class WindProvider extends BaseProvider {
     }
   }
 
-  Future<List<dynamic>> fetchDirection() async {
-    return [];
+  Future<List<WindModel>> fetchDirection() async {
+    try {
+      return await _repository.fetchTop();
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override

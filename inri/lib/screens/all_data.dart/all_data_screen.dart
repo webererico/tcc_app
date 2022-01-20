@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:inri/components/custom_scaffold.dart';
 import 'package:inri/components/loader.dart';
@@ -19,29 +20,53 @@ class AllDataScreen extends StatelessWidget {
       title: _dataType.title,
       body: Container(
         child: FutureBuilder<List<dynamic>>(
-            future: _getData(context, _dataType),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState != ConnectionState.done) return const Center(child: Loader());
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  final dynamic value = snapshot.data!.elementAt(index);
-                  return ListTile(
-                    onTap: () => _showMyDialog(context, value, _dataType) ,
-                    title: Text('Average: ${value.average} ${_dataType.unit}'),
-                    subtitle: Text('Max: ${value.max} Min: ${value.min}'),
-                    trailing: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text('Date:'),
-                        Text(dateFormat.format(value.createdAt)),
-                      ],
-                    ),
-                  );
-                },
-              );
-            }),
+          future: _getData(context, _dataType),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState != ConnectionState.done) return const Center(child: Loader());
+            var _groupList = groupBy(snapshot.data!, (dynamic obj) => formatter.format(obj.createdAt));
+            return ListView.builder(
+              primary: false,
+              shrinkWrap: true,
+              itemCount: _groupList.keys.length,
+              itemBuilder: (context, index) {
+                final MapEntry<String, List<dynamic>> _map = _groupList.entries.elementAt(index);
+                return ExpansionTile(
+                  title: Text(formatDate.format(DateTime.parse(_map.key))),
+                  children: [
+                    ListView.builder(
+                      physics: const ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: _map.value.length,
+                      itemBuilder: (context, index) {
+                        final dynamic _data = _map.value.elementAt(index);
+                        return ListTile(
+                          onTap: () => _showMyDialog(context, _data, _dataType),
+                          title: Text('Average: ${_data.average} ${_dataType.unit}'),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Max: ${_data.max.toStringAsPrecision(3)} Min: ${_data.min.toStringAsPrecision(3)}'),
+                              Text('Deviation: ${_data.deviation.toStringAsPrecision(3)} ${_dataType.unit}'),
+                            ],
+                          ),
+                          trailing: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text('Date:'),
+                              Text(dateFormatWithSpace.format(_data.createdAt)),
+                            ],
+                          ),
+                        );
+                      },
+                    )
+                  ],
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }
@@ -73,19 +98,21 @@ Future<void> _showMyDialog(BuildContext context, dynamic value, DataType dataTyp
         title: Text('Saved at: \n${dateFormat.format(value.createdAt)}'),
         content: SingleChildScrollView(
           child: ListBody(
-            children:  <Widget>[
+            children: <Widget>[
               Text('Average: ${value.average} ${dataType.unit}'),
               Text('Deviation: ${value.deviation} ${dataType.unit}'),
               Text('Max: ${value.max} ${dataType.unit}'),
               Text('Min: ${value.min} ${dataType.unit}'),
-              // Text('Number of reads: ${value.count}'),
               const Text('Status: Working normal')
             ],
           ),
         ),
         actions: <Widget>[
           TextButton(
-            child: const Text('OK', style: TextStyle(color: Colors.white),),
+            child: const Text(
+              'OK',
+              style: TextStyle(color: Colors.white),
+            ),
             onPressed: () {
               Navigator.of(context).pop();
             },

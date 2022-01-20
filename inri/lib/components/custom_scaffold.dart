@@ -6,8 +6,10 @@ import 'package:inri/constants/colors.dart';
 class CustomScaffold extends StatelessWidget {
   final String? title;
   final Widget body;
+  final VoidCallback? onRefreshTap;
+  final Widget? floatingActionButton;
 
-  const CustomScaffold({required this.body, this.title});
+  const CustomScaffold({required this.body, this.title, this.floatingActionButton, this.onRefreshTap});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,9 +25,18 @@ class CustomScaffold extends StatelessWidget {
                 style: const TextStyle(color: kSecondaryColor),
               ),
         centerTitle: true,
-        actions: const [PopUpMenu()],
+        actions: [
+          const PopUpMenu(),
+          if (onRefreshTap != null)
+          IconButton(
+            onPressed: onRefreshTap,
+            icon: const Icon(Icons.refresh),
+          ),
+        ],
       ),
       body: body,
+      floatingActionButton: floatingActionButton,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

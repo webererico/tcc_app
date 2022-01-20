@@ -6,6 +6,7 @@ import 'package:inri/models/user_model.dart';
 import 'package:inri/providers/all.dart';
 import 'package:inri/screens/login/login_screen.dart';
 import 'package:inri/utils/snackbar_message.dart';
+import 'package:inri/utils/validators/field_validators.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -56,30 +57,35 @@ class ProfileScreen extends StatelessWidget {
                         controller: _nameController,
                         hintText: 'Name',
                         label: 'Name',
+                        validator: emptyField,
                       ),
                       const SizedBox(height: 20),
                       TextInput(
                         controller: _occupationController,
                         hintText: 'Occupation',
                         label: 'Occupation',
+                        validator: emptyField,
                       ),
                       const SizedBox(height: 20),
                       TextInput(
                         controller: _courseController,
                         hintText: 'Course',
                         label: 'Course',
+                        validator: emptyField,
                       ),
                       const SizedBox(height: 20),
                       TextInput(
                         controller: _contactController,
                         hintText: 'Contact',
                         label: 'Contact',
+                        validator: emptyField,
                       ),
                       const SizedBox(height: 20),
                       TextInput(
                         controller: _emailController,
                         hintText: 'Email',
                         label: 'Email',
+                        validator: validatorEmail,
                       ),
                     ],
                   ),
@@ -109,15 +115,22 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(width: 10),
               FloatingActionButton.extended(
                 heroTag: 'updateAccount',
-                onPressed: () => userProvider.updateProfile(
-                  UserModel(
-                    contact: _contactController.text,
-                    name: _nameController.text,
-                    course: _courseController.text,
-                    email: _emailController.text,
-                    occupation: _occupationController.text,
-                  ),
-                ),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    userProvider
+                        .updateProfile(
+                          UserModel(
+                            contact: _contactController.text,
+                            name: _nameController.text,
+                            course: _courseController.text,
+                            email: _emailController.text,
+                            occupation: _occupationController.text,
+                          ),
+                        )
+                        .catchError((onError) => showSnackbar(context, onError.toString(), messageType.ERROR))
+                        .then((value) => showSnackbar(context, 'Profiel Updated', messageType.SUCCESS));
+                  }
+                },
                 icon: const Icon(Icons.save),
                 label: const Text('Update'),
               ),
