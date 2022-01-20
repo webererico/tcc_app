@@ -20,7 +20,8 @@ class AuthProvider extends BaseProvider {
         await Prefs.removeSaveCredentials;
       }
     } catch (e) {
-      rethrow;
+      print('caiu');
+      throw e;
     } finally {
       toggleLoading();
     }

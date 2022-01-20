@@ -36,14 +36,21 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 50),
         child: Column(
           children: [
             Container(
-              margin: const EdgeInsets.only(left: 100, right: 100, top: 100, bottom: 30),
+              margin: const EdgeInsets.only(left: 100, right: 100, top: 60, bottom: 30),
               child: Image.asset('assets/png/inri_logo.png'),
             ),
+            const SizedBox(height: 10),
+            const Text(
+              'Weather Station\nMonitoring',
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 10),
             FutureBuilder(
               future: initData(),
               builder: (context, snapshot) {
@@ -75,10 +82,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () {
                               auth
                                   .doLogin(_emailController.text, _passwordController.text, _saveCredentials)
-                                  .then(
-                                      (value) => Navigator.of(context).pushReplacementNamed(DashboardScreen.routeName))
-                                  .catchError(
-                                      (onError) => showSnackbar(context, onError.toString(), messageType.ERROR));
+                                  .then((value) => Navigator.of(context).pushReplacementNamed(DashboardScreen.routeName))
+                                  .catchError((onError) => showSnackbar(context, onError.toString(), messageType.ERROR));
+                                  
+                              // 
                             },
                             elevation: 0,
                           );
