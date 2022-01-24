@@ -19,6 +19,7 @@ class DashboardProvider extends BaseProvider {
     try {
       return await _repository.fetchDashboard();
     } catch (e) {
+      print(e.toString());
       rethrow;
     }
   }

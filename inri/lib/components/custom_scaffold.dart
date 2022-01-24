@@ -26,12 +26,12 @@ class CustomScaffold extends StatelessWidget {
               ),
         centerTitle: true,
         actions: [
-          const PopUpMenu(),
           if (onRefreshTap != null)
-          IconButton(
-            onPressed: onRefreshTap,
-            icon: const Icon(Icons.refresh),
-          ),
+            IconButton(
+              onPressed: onRefreshTap,
+              icon: const Icon(Icons.refresh),
+            ),
+          const PopUpMenu(),
         ],
       ),
       body: body,

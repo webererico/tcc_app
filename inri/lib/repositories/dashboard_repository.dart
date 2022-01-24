@@ -12,7 +12,8 @@ class DashboardRepository extends BaseRepository {
       final _response = await dio.get('dashboard', options: Options(headers: {'Authorization': await Prefs.accessToken}));
       return DashboardModel.fromMap(_response.data['data']);
     } on DioError catch (e){
-      throw e.response?.data['message'];
+      print(e);
+      return e.response?.data['message'];
     }
   }
 
@@ -21,7 +22,8 @@ class DashboardRepository extends BaseRepository {
       final _response = await dio.get('/status', options: Options(headers: {'Authorization': await Prefs.accessToken}));
       return SystemStatusModel.fromMap(_response.data['data']);
     } on DioError catch (e){
-      throw e.response?.data['message'];
+      print(e);
+      return e.response?.data['message'];
     }
   }
   

@@ -2,7 +2,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:inri/constants/colors.dart';
 import 'package:inri/models/total_energy_model.dart';
-import 'package:inri/utils/formatters/date_formater.dart';
 
 class EnergyGraph extends StatefulWidget {
   final List<TotalEnergyModel> energyList;

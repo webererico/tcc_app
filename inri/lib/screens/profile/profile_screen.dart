@@ -51,43 +51,45 @@ class ProfileScreen extends StatelessWidget {
                 margin: const EdgeInsets.all(20),
                 child: Form(
                   key: _formKey,
-                  child: Column(
-                    children: [
-                      TextInput(
-                        controller: _nameController,
-                        hintText: 'Name',
-                        label: 'Name',
-                        validator: emptyField,
-                      ),
-                      const SizedBox(height: 20),
-                      TextInput(
-                        controller: _occupationController,
-                        hintText: 'Occupation',
-                        label: 'Occupation',
-                        validator: emptyField,
-                      ),
-                      const SizedBox(height: 20),
-                      TextInput(
-                        controller: _courseController,
-                        hintText: 'Course',
-                        label: 'Course',
-                        validator: emptyField,
-                      ),
-                      const SizedBox(height: 20),
-                      TextInput(
-                        controller: _contactController,
-                        hintText: 'Contact',
-                        label: 'Contact',
-                        validator: emptyField,
-                      ),
-                      const SizedBox(height: 20),
-                      TextInput(
-                        controller: _emailController,
-                        hintText: 'Email',
-                        label: 'Email',
-                        validator: validatorEmail,
-                      ),
-                    ],
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        TextInput(
+                          controller: _nameController,
+                          hintText: 'Name',
+                          label: 'Name',
+                          validator: emptyField,
+                        ),
+                        const SizedBox(height: 20),
+                        TextInput(
+                          controller: _occupationController,
+                          hintText: 'Occupation',
+                          label: 'Occupation',
+                          validator: emptyField,
+                        ),
+                        const SizedBox(height: 20),
+                        TextInput(
+                          controller: _courseController,
+                          hintText: 'Course',
+                          label: 'Course',
+                          validator: emptyField,
+                        ),
+                        const SizedBox(height: 20),
+                        TextInput(
+                          controller: _contactController,
+                          hintText: 'Contact',
+                          label: 'Contact',
+                          validator: emptyField,
+                        ),
+                        const SizedBox(height: 20),
+                        TextInput(
+                          controller: _emailController,
+                          hintText: 'Email',
+                          label: 'Email',
+                          validator: validatorEmail,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );
