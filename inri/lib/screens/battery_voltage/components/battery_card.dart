@@ -28,7 +28,7 @@ class BatteryCard extends StatelessWidget {
               style: _textStyle,
             ),
             Text(
-              'Deviation: ${batteryModel.deviation}',
+              'Deviation: ${batteryModel.deviation!.toStringAsFixed(3)}',
               style: _textStyle,
             )
           ],

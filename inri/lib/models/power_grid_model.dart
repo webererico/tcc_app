@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-class PowerGridModel {
+class StationStatus {
   bool status;
   DateTime createdAt;
   DateTime updatedAt;
 
-  PowerGridModel({required this.status, required this.createdAt, required this.updatedAt});
+  StationStatus({required this.status, required this.createdAt, required this.updatedAt});
 
   Map<String, dynamic> toMap() {
     return {
@@ -15,8 +15,8 @@ class PowerGridModel {
     };
   }
 
-  factory PowerGridModel.fromMap(Map<String, dynamic> map) {
-    return PowerGridModel(
+  factory StationStatus.fromMap(Map<String, dynamic> map) {
+    return StationStatus(
       status: map['status'] == 1 ? true : false,
       createdAt: DateTime.parse(map['created_at']),
       updatedAt: DateTime.parse(map['updated_at']),
@@ -25,5 +25,5 @@ class PowerGridModel {
 
   String toJson() => json.encode(toMap());
 
-  factory PowerGridModel.fromJson(String source) => PowerGridModel.fromMap(json.decode(source));
+  factory StationStatus.fromJson(String source) => StationStatus.fromMap(json.decode(source));
 }

@@ -5,23 +5,23 @@ import 'package:inri/models/power_grid_model.dart';
 
 class SystemStatusModel {
   InversorModel inversor;
-  PowerGridModel powerGrid;
+  StationStatus stationStatus;
 
-  SystemStatusModel({required this.inversor, required this.powerGrid});
+  SystemStatusModel({required this.inversor, required this.stationStatus});
 
   
 
   Map<String, dynamic> toMap() {
     return {
       'inversor_status': inversor.toMap(),
-      'power_grid_status': powerGrid.toMap(),
+      'station_status': stationStatus.toMap(),
     };
   }
 
   factory SystemStatusModel.fromMap(Map<String, dynamic> map) {
     return SystemStatusModel(
       inversor: InversorModel.fromMap(map['inversor_status']),
-      powerGrid: PowerGridModel.fromMap(map['power_grid_status']),
+      stationStatus: StationStatus.fromMap(map['station_status']),
     );
   }
 

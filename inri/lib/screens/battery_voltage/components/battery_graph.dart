@@ -28,7 +28,7 @@ class _BatteryGraphState extends State<BatteryGraph> {
 
   getData() {
     chartData = widget.batteryData
-        .getRange(1440 - _interval * 10, 1440)
+        .getRange(widget.batteryData.length - _interval * 60, widget.batteryData.length)
         .map((e) => _StepAreaData(e.createdAt!, e.max!, e.min!, e.average!))
         .toList();
   }
@@ -55,7 +55,6 @@ class _BatteryGraphState extends State<BatteryGraph> {
     );
   }
 
-  /// Returns the cartesian step area chart.
   SfCartesianChart _buildStepAreaChart() {
     return SfCartesianChart(
       legend: Legend(isVisible: true, position: LegendPosition.top),
@@ -92,6 +91,15 @@ class _BatteryGraphState extends State<BatteryGraph> {
       ),
       StepAreaSeries<_StepAreaData, DateTime>(
         dataSource: chartData!,
+        borderColor: kPrimaryColor,
+        color: kPrimaryColor.withOpacity(0.6),
+        borderWidth: 2,
+        name: 'Average',
+        xValueMapper: (_StepAreaData data, _) => data.x,
+        yValueMapper: (_StepAreaData data, _) => data.average,
+      ),
+      StepAreaSeries<_StepAreaData, DateTime>(
+        dataSource: chartData!,
         borderColor: const Color.fromRGBO(192, 108, 132, 1),
         color: const Color.fromRGBO(192, 108, 132, 0.6),
         borderWidth: 2,
@@ -99,15 +107,6 @@ class _BatteryGraphState extends State<BatteryGraph> {
         xValueMapper: (_StepAreaData data, _) => data.x,
         yValueMapper: (_StepAreaData data, _) => data.min,
       ),
-      StepAreaSeries<_StepAreaData, DateTime>(
-        dataSource: chartData!,
-        borderColor: kPrimaryColor,
-        color: kPrimaryColor.withOpacity(0.6),
-        borderWidth: 2,
-        name: 'Average',
-        xValueMapper: (_StepAreaData data, _) => data.x,
-        yValueMapper: (_StepAreaData data, _) => data.average,
-      )
     ];
   }
 

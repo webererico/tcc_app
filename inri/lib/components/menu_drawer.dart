@@ -7,6 +7,7 @@ import 'package:inri/screens/battery_voltage/battery_voltage_screen.dart';
 import 'package:inri/screens/dashboard/dashboard_screen.dart';
 import 'package:inri/screens/export/export_screen.dart';
 import 'package:inri/screens/measured_power/measured_power_screen.dart';
+import 'package:inri/screens/status/status_screen.dart';
 import 'package:inri/screens/total_energy/total_energy_screen.dart';
 import 'package:inri/screens/wind_direction/wind_direction_screen.dart';
 import 'package:inri/screens/wind_speed/wind_speed_screen.dart';
@@ -29,7 +30,7 @@ class MenuDrawer extends StatelessWidget {
             MenuDrawerTile(
               icon: FontAwesomeIcons.bolt,
               onPressed: () => Navigator.of(context).pushReplacementNamed(TotalEnergyScreen.routeName),
-              title: 'Cumulated Total Energy',
+              title: 'Total Energy',
             ),
             MenuDrawerTile(
               icon: FontAwesomeIcons.plug,
@@ -50,6 +51,11 @@ class MenuDrawer extends StatelessWidget {
               icon: FontAwesomeIcons.wind,
               onPressed: () => Navigator.of(context).pushReplacementNamed(windSpeedScreen.routeName),
               title: 'Wind Speed',
+            ),
+            MenuDrawerTile(
+              icon: FontAwesomeIcons.solarPanel,
+              onPressed: () => Navigator.of(context).pushReplacementNamed(StatusScreen.routeName),
+              title: 'Status',
             ),
             MenuDrawerTile(
               icon: FontAwesomeIcons.fileExport,

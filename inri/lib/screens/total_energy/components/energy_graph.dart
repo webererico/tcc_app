@@ -1,128 +1,149 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:inri/constants/colors.dart';
 import 'package:inri/models/total_energy_model.dart';
+import 'package:inri/utils/formatters/date_formater.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class EnergyGraph extends StatefulWidget {
-  final List<TotalEnergyModel> energyList;
-  const EnergyGraph(this.energyList);
+  final List<TotalEnergyModel> energyData;
+  const EnergyGraph(this.energyData);
 
   @override
   _EnergyGraphState createState() => _EnergyGraphState();
 }
 
 class _EnergyGraphState extends State<EnergyGraph> {
-  late List<FlSpot> _spots;
-  late int _biggers;
-  List<Color> gradientColors = [
-    kPrimaryColor,
-    kSecondaryColor,
-  ];
+  bool _showMin = false;
+  bool _showMax = false;
+  bool _showAverage = true;
+  bool _showDeviation = false;
+  bool _showValues = false;
+  late ZoomPanBehavior _zoomPanBehavior;
+  late List<_ChartData> _maxData;
+  late List<_ChartData> _averageData;
+  late List<_ChartData> _minData;
+  late List<_ChartData> _deviationData;
 
   @override
   void initState() {
-    
-    _spots = widget.energyList.map((e) => FlSpot(widget.energyList.indexOf(e).toDouble(), e.average!)).toList();
+    _zoomPanBehavior = ZoomPanBehavior(
+        enableDoubleTapZooming: true, enablePanning: true, enablePinching: true, enableSelectionZooming: true);
+    _maxData = widget.energyData.map((e) => _ChartData(timeFormat.format(e.createdAt!), e.max!)).toList();
+    _averageData = widget.energyData.map((e) => _ChartData(timeFormat.format(e.createdAt!), e.average!)).toList();
+    _minData = widget.energyData.map((e) => _ChartData(timeFormat.format(e.createdAt!), e.min!)).toList();
+    _deviationData = widget.energyData.map((e) => _ChartData(timeFormat.format(e.createdAt!), e.deviation!)).toList();
     super.initState();
   }
 
-  double get biggets {
-    double bigger = 0;
-    widget.energyList.forEach((element) {
-      if (element.average! > bigger){
-        bigger = element.average!+10;
-      }
-    });
-    return bigger;
-  }
-
-  bool showAvg = false;
-  TextStyle get _subtitleStyle => const TextStyle(color: kSecondaryColor, fontSize: 10);
-
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        AspectRatio(
-          aspectRatio: 1.0,
-          child: Container(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 18.0, left: 12.0, top: 24, bottom: 12),
-              child: LineChart(mainData()),
-            ),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(
+                width: 8,
+              ),
+              ElevatedButton(
+                  child: const Text('Max'),
+                  style: _textStyle(_showMax),
+                  onPressed: () => setState(() => _showMax = !_showMax)),
+              const SizedBox(
+                width: 8,
+              ),
+              ElevatedButton(
+                  child: const Text('Min'),
+                  style: _textStyle(_showMin),
+                  onPressed: () => setState(() => _showMin = !_showMin)),
+              const SizedBox(
+                width: 8,
+              ),
+              ElevatedButton(
+                  child: const Text('Average'),
+                  style: _textStyle(_showAverage),
+                  onPressed: () => setState(() => _showAverage = !_showAverage)),
+              const SizedBox(
+                width: 8,
+              ),
+              ElevatedButton(
+                  child: const Text('Deviation'),
+                  style: _textStyle(_showDeviation),
+                  onPressed: () => setState(() => _showDeviation = !_showDeviation)),
+              const SizedBox(
+                width: 8,
+              ),
+              ElevatedButton(
+                  child: const Text('Show values'),
+                  style: _textStyle(_showValues),
+                  onPressed: () => setState(() => _showValues = !_showValues)),
+            ],
           ),
-        ),
-      ],
+          Container(
+            height: 350,
+            child: SfCartesianChart(
+                zoomPanBehavior: _zoomPanBehavior,
+                primaryXAxis: CategoryAxis(),
+                tooltipBehavior: TooltipBehavior(enable: true),
+                series: <ChartSeries<_ChartData, String>>[
+                  if (_showAverage)
+                    LineSeries<_ChartData, String>(
+                      dataSource: _averageData,
+                      xValueMapper: (_ChartData sales, _) => sales.date,
+                      yValueMapper: (_ChartData sales, _) => sales.value,
+                      color: kSecondaryColor,
+                      name: 'Average',
+                      dataLabelSettings: DataLabelSettings(isVisible: _showValues),
+                    ),
+                  if (_showMax)
+                    LineSeries<_ChartData, String>(
+                      dataSource: _maxData,
+                      xValueMapper: (_ChartData sales, _) => sales.date,
+                      yValueMapper: (_ChartData sales, _) => sales.value,
+                      name: 'Max',
+                      isVisible: _showMax,
+                      color: Colors.red,
+                      isVisibleInLegend: _showMax,
+                      dataLabelSettings: DataLabelSettings(isVisible: _showValues),
+                    ),
+                  if (_showMin)
+                    LineSeries<_ChartData, String>(
+                      dataSource: _minData,
+                      xValueMapper: (_ChartData sales, _) => sales.date,
+                      yValueMapper: (_ChartData sales, _) => sales.value,
+                      name: 'Min',
+                      isVisible: _showMin,
+                      isVisibleInLegend: _showMin,
+                      color: Colors.orange,
+                      dataLabelSettings: DataLabelSettings(isVisible: _showValues),
+                    ),
+                  LineSeries<_ChartData, String>(
+                    dataSource: _deviationData,
+                    xValueMapper: (_ChartData sales, _) => sales.date,
+                    yValueMapper: (_ChartData sales, _) => sales.value,
+                    name: 'Deviation',
+                    isVisible: _showDeviation,
+                    isVisibleInLegend: _showDeviation,
+                    dataLabelSettings: DataLabelSettings(isVisible: _showValues),
+                  ),
+                ]),
+          ),
+        ],
+      ),
     );
   }
+}
 
-  LineChartData mainData() {
-    return LineChartData(
-      gridData: FlGridData(
-        show: true,
-        drawVerticalLine: true,
-        getDrawingHorizontalLine: (value) {
-          return FlLine(color: kSecondaryColor.withOpacity(0.2), strokeWidth: 1);
-        },
-        getDrawingVerticalLine: (value) {
-          return FlLine(color: kSecondaryColor.withOpacity(0.2), strokeWidth: 1);
-        },
-      ),
-      titlesData: FlTitlesData(
-        show: true,
-        rightTitles: SideTitles(showTitles: false),
-        topTitles: SideTitles(showTitles: false),
-        bottomTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 22,
-          interval: 1,
-          getTextStyles: (context, value) => _subtitleStyle,
-          rotateAngle: 30,
-          getTitles: (value){
-            if (value % 120 == 0) {
-              return widget.energyList.elementAt(value.toInt()).createdAt!.hour.toString();
-            }
-            return '';
-          },
-          margin: 5,
-        ),
-        leftTitles: SideTitles(
-          showTitles: true,
-          interval: 1,
-          getTextStyles: (context, value) => _subtitleStyle,
-          getTitles: (value){ 
-              if (value % 120 == 0){
-                return value.toString();
-              }
-              return '';
-              // return widget.energyList.elementAt(value.toInt()).average!.toStringAsFixed(0);
-              // return '';
-          },
-          reservedSize: 25,
-          margin: 4,
-        ),
-      ),
-      borderData: FlBorderData(show: true, border: Border.all(color: const Color(0xff37434d), width: 0.5)),
-      minX: 0,
-      maxX: 1438,
-      minY: 0,
-      maxY: biggets,
-      lineBarsData: [
-        LineChartBarData(
-          spots: _spots,
-          isCurved: false,
-          colors: gradientColors,
-          barWidth: 1,
-          isStrokeCapRound: true,
-          dotData: FlDotData(
-            show: false,
-          ),
-          belowBarData: BarAreaData(
-            show: true,
-            colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
-          ),
-        ),
-      ],
-    );
-  }
+class _ChartData {
+  _ChartData(this.date, this.value);
+  final String date;
+  final double value;
+}
+
+ButtonStyle _textStyle(bool pressed) {
+  return ElevatedButton.styleFrom(
+      primary: pressed ? kSecondaryColor : kSecondaryColor.withOpacity(0.3),
+      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
+      textStyle: const TextStyle(color: Colors.white, fontSize: 10));
 }

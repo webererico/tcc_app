@@ -14,7 +14,7 @@ class CustomDateRange extends StatelessWidget {
     return InputDecorator(
       child: GestureDetector(
         child: Text(title),
-        onTap: () => _dataPicker(context).then((value) => value != null ? onTap : null),
+        onTap: () => _dataPicker(context).then((value) => value != null ? onTap(value) : null),
       ),
       decoration: InputDecoration(
         labelText: 'Date Interval',
@@ -34,7 +34,7 @@ Future<DateTimeRange?> _dataPicker(BuildContext context) {
   return showDateRangePicker(
     context: context,
     firstDate: DateTime(2000),
-    lastDate: DateTime.now(),
+    lastDate: DateTime.now().add(Duration(days: 1)),
     cancelText: 'Cancelar',
     saveText: 'Buscar',
     builder: (context, child) {

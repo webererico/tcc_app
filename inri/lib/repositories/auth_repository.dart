@@ -27,7 +27,7 @@ class AuthRepository extends BaseRepository {
         data: user.toJson(),
       );
     } on DioError catch (e) {
-      throw e.response?.data['message'];
+      throw e.response.toString();
     }
   }
 

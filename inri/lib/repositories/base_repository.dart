@@ -9,7 +9,7 @@ abstract class BaseRepository {
   late Dio dio;
 
   BaseRepository() {
-    dio = HttpHelper(remoteBaseUrl)
+    dio = HttpHelper(localBaseURL)
         .addInterceptor(
           InterceptorsWrapper(
             onRequest: (options, handler) {

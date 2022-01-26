@@ -8,6 +8,7 @@ import 'package:inri/screens/login/login_screen.dart';
 import 'package:inri/screens/measured_power/measured_power_screen.dart';
 import 'package:inri/screens/profile/profile_screen.dart';
 import 'package:inri/screens/register/register_screen.dart';
+import 'package:inri/screens/status/status_screen.dart';
 import 'package:inri/screens/total_energy/total_energy_screen.dart';
 import 'package:inri/screens/wind_direction/wind_direction_screen.dart';
 import 'package:inri/screens/wind_speed/wind_speed_screen.dart';
@@ -24,6 +25,6 @@ Map<String, Widget Function(BuildContext)> routes = {
   BatteryVoltageScreen.routeNamed: (context) => const BatteryVoltageScreen(),
   RegisterScreen.routeName: (context) => RegisterScreen(),
   AllDataScreen.routeNamed: (context) => const AllDataScreen(),
-  ExportScreen.routeName: (context) => const ExportScreen()
-  
+  ExportScreen.routeName: (context) => const ExportScreen(),
+  StatusScreen.routeName: (context) => const StatusScreen(),
 };

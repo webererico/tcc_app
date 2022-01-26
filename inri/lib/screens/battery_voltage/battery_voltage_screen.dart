@@ -28,7 +28,7 @@ class BatteryVoltageScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             child: Column(
               children: [
-                CustomCard(snapshot.data!.last, leading: const FaIcon(FontAwesomeIcons.carBattery, color: kPrimaryColor,),),
+                CustomCard(snapshot.data!.last, DataType.battery, leading: const FaIcon(FontAwesomeIcons.carBattery, color: kPrimaryColor,),),
                 const SizedBox(height: 10,),
                 BatteryGraph(snapshot.data!),
                 const AllDataTile(dataType: DataType.battery)

@@ -4,74 +4,146 @@ import 'package:inri/models/power_model.dart';
 import 'package:inri/utils/formatters/date_formater.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class PowerGraph extends StatefulWidget {
-  final List<PowerModel> data;
-  const PowerGraph(this.data);
+class PowereGraph extends StatefulWidget {
+  final List<PowerModel> powerData;
+  const PowereGraph(this.powerData);
 
   @override
-  State<PowerGraph> createState() => _PowerGraphState();
+  _PowereGraphState createState() => _PowereGraphState();
 }
 
-class _PowerGraphState extends State<PowerGraph> {
+class _PowereGraphState extends State<PowereGraph> {
+  bool _showMin = false;
+  bool _showMax = false;
+  bool _showAverage = true;
+  bool _showDeviation = false;
+  bool _showValues = false;
+  late ZoomPanBehavior _zoomPanBehavior;
   late List<_ChartData> _maxData;
-  late List<_ChartData> _minData;
   late List<_ChartData> _averageData;
-  late TooltipBehavior _tooltip;
+  late List<_ChartData> _minData;
+  late List<_ChartData> _deviationData;
+
   @override
   void initState() {
-    _maxData =
-        widget.data.map((e) => _ChartData(dateFormat.format(e.createdAt!), e.max!)).toList().getRange(0, 5).toList();
-    _minData =
-        widget.data.map((e) => _ChartData(dateFormat.format(e.createdAt!), e.min!)).toList().getRange(0, 5).toList();
-    _averageData = widget.data
-        .map((e) => _ChartData(dateFormat.format(e.createdAt!), e.average!))
-        .toList()
-        .getRange(0, 5)
-        .toList();
-    _tooltip = TooltipBehavior(enable: true);
+    _zoomPanBehavior = ZoomPanBehavior(
+        enableDoubleTapZooming: true, enablePanning: true, enablePinching: true, enableSelectionZooming: true);
+    _maxData = widget.powerData.map((e) => _ChartData(timeFormat.format(e.createdAt!), e.max!)).toList();
+    _averageData = widget.powerData.map((e) => _ChartData(timeFormat.format(e.createdAt!), e.average!)).toList();
+    _minData = widget.powerData.map((e) => _ChartData(timeFormat.format(e.createdAt!), e.min!)).toList();
+    _deviationData = widget.powerData.map((e) => _ChartData(timeFormat.format(e.createdAt!), e.deviation!)).toList();
     super.initState();
-  }
-
-  get bigInMax {
-    double bigger = _maxData.first.y;
-    _maxData.forEach((element) {
-      if (element.y > bigger) bigger = element.y;
-    });
-    return bigger;
   }
 
   @override
   Widget build(BuildContext context) {
-    return SfCartesianChart(
-        primaryXAxis: CategoryAxis(),
-        primaryYAxis: NumericAxis(minimum: 0, maximum: bigInMax + 5, interval: 10),
-        tooltipBehavior: _tooltip,
-        series: <ChartSeries<_ChartData, String>>[
-          ColumnSeries<_ChartData, String>(
-              dataSource: _minData,
-              xValueMapper: (_ChartData data, _) => data.x,
-              yValueMapper: (_ChartData data, _) => data.y,
-              name: 'Min',
-              color: kPrimaryColor),
-          ColumnSeries<_ChartData, String>(
-              dataSource: _averageData,
-              xValueMapper: (_ChartData data, _) => data.x,
-              yValueMapper: (_ChartData data, _) => data.y,
-              name: 'Average',
-              color: kSecondaryColor),
-          ColumnSeries<_ChartData, String>(
-              dataSource: _maxData,
-              xValueMapper: (_ChartData data, _) => data.x,
-              yValueMapper: (_ChartData data, _) => data.y,
-              name: 'Max',
-              color: kPrimaryColor.withOpacity(0.4)),
-        ]);
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(
+                width: 8,
+              ),
+              ElevatedButton(
+                  child: const Text('Max'),
+                  style: _textStyle(_showMax),
+                  onPressed: () => setState(() => _showMax = !_showMax)),
+              const SizedBox(
+                width: 8,
+              ),
+              ElevatedButton(
+                  child: const Text('Min'),
+                  style: _textStyle(_showMin),
+                  onPressed: () => setState(() => _showMin = !_showMin)),
+              const SizedBox(
+                width: 8,
+              ),
+              ElevatedButton(
+                  child: const Text('Average'),
+                  style: _textStyle(_showAverage),
+                  onPressed: () => setState(() => _showAverage = !_showAverage)),
+              const SizedBox(
+                width: 8,
+              ),
+              ElevatedButton(
+                  child: const Text('Deviation'),
+                  style: _textStyle(_showDeviation),
+                  onPressed: () => setState(() => _showDeviation = !_showDeviation)),
+              const SizedBox(
+                width: 8,
+              ),
+              ElevatedButton(
+                  child: const Text('Show values'),
+                  style: _textStyle(_showValues),
+                  onPressed: () => setState(() => _showValues = !_showValues)),
+            ],
+          ),
+          Container(
+            height: 350,
+            child: SfCartesianChart(
+                zoomPanBehavior: _zoomPanBehavior,
+                primaryXAxis: CategoryAxis(),
+                tooltipBehavior: TooltipBehavior(enable: true),
+                series: <ChartSeries<_ChartData, String>>[
+                  if (_showAverage)
+                    LineSeries<_ChartData, String>(
+                      dataSource: _averageData,
+                      xValueMapper: (_ChartData sales, _) => sales.date,
+                      yValueMapper: (_ChartData sales, _) => sales.value,
+                      color: kSecondaryColor,
+                      name: 'Average',
+                      dataLabelSettings: DataLabelSettings(isVisible: _showValues),
+                    ),
+                  if (_showMax)
+                    LineSeries<_ChartData, String>(
+                      dataSource: _maxData,
+                      xValueMapper: (_ChartData sales, _) => sales.date,
+                      yValueMapper: (_ChartData sales, _) => sales.value,
+                      name: 'Max',
+                      isVisible: _showMax,
+                      color: Colors.red,
+                      isVisibleInLegend: _showMax,
+                      dataLabelSettings: DataLabelSettings(isVisible: _showValues),
+                    ),
+                  if (_showMin)
+                    LineSeries<_ChartData, String>(
+                      dataSource: _minData,
+                      xValueMapper: (_ChartData sales, _) => sales.date,
+                      yValueMapper: (_ChartData sales, _) => sales.value,
+                      name: 'Min',
+                      isVisible: _showMin,
+                      isVisibleInLegend: _showMin,
+                      color: Colors.orange,
+                      dataLabelSettings: DataLabelSettings(isVisible: _showValues),
+                    ),
+                  LineSeries<_ChartData, String>(
+                    dataSource: _deviationData,
+                    xValueMapper: (_ChartData sales, _) => sales.date,
+                    yValueMapper: (_ChartData sales, _) => sales.value,
+                    name: 'Deviation',
+                    isVisible: _showDeviation,
+                    isVisibleInLegend: _showDeviation,
+                    dataLabelSettings: DataLabelSettings(isVisible: _showValues),
+                  ),
+                ]),
+          ),
+        ],
+      ),
+    );
   }
 }
 
 class _ChartData {
-  _ChartData(this.x, this.y);
+  _ChartData(this.date, this.value);
+  final String date;
+  final double value;
+}
 
-  final String x;
-  final double y;
+ButtonStyle _textStyle(bool pressed) {
+  return ElevatedButton.styleFrom(
+      primary: pressed ? kSecondaryColor : kSecondaryColor.withOpacity(0.3),
+      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 0),
+      textStyle: const TextStyle(color: Colors.white, fontSize: 10));
 }

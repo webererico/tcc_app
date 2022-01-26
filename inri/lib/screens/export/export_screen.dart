@@ -41,7 +41,7 @@ class _ExportScreenState extends State<ExportScreen> {
                 'Wind Speed Lateral',
                 'Wind Speed Top',
                 'Wind Direction',
-                'Total Acumulated Energy',
+                'Total Energy',
                 'Measured Power'
               ],
               (value) => setState(() => _variableName = value),
@@ -72,7 +72,7 @@ class _ExportScreenState extends State<ExportScreen> {
             onPressed: () async {
               if (_dateRange != null && _variableName != null)
                 return dashboardProvider.exportData(_variableName!, _dateRange!);
-              return showSnackbar(context, 'Please, inform all the variable', messageType.ERROR);
+              return showSnackbar(context, 'Please, inform all the variables.', messageType.ERROR);
             });
       }),
     );

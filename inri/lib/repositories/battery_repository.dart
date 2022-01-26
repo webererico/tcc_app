@@ -12,7 +12,7 @@ class BatteryRepository extends BaseRepository {
       (_response.data['data'] as Map).forEach((key, value) {
         return batteryList.add(BatteryVoltageModel.fromMap(value));
       });
-      
+
       return batteryList;
     } on DioError catch (e) {
       throw e.response?.data['message'];

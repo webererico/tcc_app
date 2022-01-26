@@ -4,6 +4,7 @@ import 'package:inri/components/loader.dart';
 import 'package:inri/constants/colors.dart';
 import 'package:inri/models/system_status_model.dart';
 import 'package:inri/providers/dashboard_provider.dart';
+import 'package:inri/screens/status/status_screen.dart';
 import 'package:inri/services/weather_service.dart';
 import 'package:inri/utils/formatters/date_formater.dart';
 import 'package:inri/utils/snackbar_message.dart';
@@ -78,7 +79,7 @@ class Header extends StatelessWidget {
                 child: FutureBuilder<SystemStatusModel>(
                   future: Provider.of<DashboardProvider>(context, listen: false).fetchStatus(),
                   builder: (context, snapshot) {
-                    if (snapshot.connectionState != ConnectionState.done)
+                    if (snapshot.connectionState != ConnectionState.done || !snapshot.hasData)
                       return const Center(
                         child: Loader(),
                       );
@@ -99,7 +100,7 @@ class Header extends StatelessWidget {
                                   style: TextStyle(color: Colors.white, fontSize: 12),
                                 ),
                                 _status(
-                                  snapshot.data!.inversor.status,
+                                  snapshot.data!.inversor.statusId != 6,
                                   context,
                                   snapshot.data!.inversor.createdAt,
                                 ),
@@ -125,9 +126,9 @@ class Header extends StatelessWidget {
                                   style: TextStyle(color: Colors.white, fontSize: 12),
                                 ),
                                 _status(
-                                  snapshot.data!.powerGrid.status,
+                                  snapshot.data!.stationStatus.status,
                                   context,
-                                  snapshot.data!.powerGrid.createdAt,
+                                  snapshot.data!.stationStatus.createdAt,
                                 ),
                                 const SizedBox(
                                   height: 5,
@@ -151,10 +152,7 @@ class Header extends StatelessWidget {
 
 Widget _status(bool status, BuildContext context, DateTime date) {
   return GestureDetector(
-    onTap: () => showSnackbar(
-        context,
-        status ? 'Status: normal' : 'Status: Error detected at ${dateFormat.format(date)}',
-        status ? messageType.SUCCESS : messageType.ERROR),
+    onTap: () => Navigator.of(context).pushNamed(StatusScreen.routeName),
     child: Icon(
       status ? Icons.check_circle_sharp : Icons.cancel,
       color: status ? kSuccess : kError,

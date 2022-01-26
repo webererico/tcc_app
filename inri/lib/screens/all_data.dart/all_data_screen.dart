@@ -86,6 +86,8 @@ Future<List> _getData(BuildContext context, DataType dataType) {
       return Provider.of<WindProvider>(context, listen: false).fetchTop();
     case DataType.windDirection:
       return Provider.of<WindProvider>(context, listen: false).fetchDirection();
+    default:
+      return Future.delayed(const Duration(seconds: 1), () => []);
   }
 }
 
