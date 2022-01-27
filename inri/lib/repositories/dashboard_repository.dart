@@ -35,7 +35,6 @@ class DashboardRepository extends BaseRepository {
           'end_date': end.toIso8601String(),
         },
       );
-      print(_response.data);
       return _response.data['data'];
     } on DioError catch (e) {
       return e.response?.data['message'];

@@ -22,7 +22,7 @@ class WindProvider extends BaseProvider {
 
   Future<List<WindModel>> fetchDirection() async {
     try {
-      return await _repository.fetchTop();
+      return await _repository.fetchDirection();
     } catch (e) {
       rethrow;
     }

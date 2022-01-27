@@ -6,7 +6,8 @@ class StatusCard extends StatelessWidget {
   final String title;
   final String status;
   final DateTime date;
-  const StatusCard(this.title, this.status, this.date);
+  final bool errorDetected;
+  const StatusCard(this.title, this.status, this.date, this.errorDetected);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,12 @@ class StatusCard extends StatelessWidget {
         subtitle: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [Text('Status: $status')],
+          children: [
+            Text(
+              'Status: $status',
+              style: TextStyle(color: errorDetected ? kError : null),
+            )
+          ],
         ),
         trailing: Column(
           mainAxisAlignment: MainAxisAlignment.center,

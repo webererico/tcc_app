@@ -25,11 +25,11 @@ class StatusScreen extends StatelessWidget {
             if (!snapshot.hasData) return const Center(child: Text('No data found.'));
             return Column(
               children: [
-                StatusCard('Aurora Inversor Status', snapshot.data!.inversor.description, snapshot.data!.inversor.createdAt),
+                StatusCard('Aurora Inversor Status', snapshot.data!.inversor.description, snapshot.data!.inversor.createdAt, snapshot.data!.inversor.statusId != 6),
                 const SizedBox(
                   height: 40,
                 ),
-                StatusCard('Weather Station Status', snapshot.data!.stationStatus.status ? 'Working' : 'Error detected', snapshot.data!.stationStatus.createdAt ),
+                StatusCard('Weather Station Status', snapshot.data!.stationStatus.status ? 'Working' : 'Error detected', snapshot.data!.stationStatus.createdAt, !snapshot.data!.stationStatus.status),
               ],
             );
           },

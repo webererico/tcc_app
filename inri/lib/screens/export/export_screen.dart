@@ -4,9 +4,11 @@ import 'package:inri/components/custom_date_range.dart';
 import 'package:inri/components/custom_dropdown.dart';
 import 'package:inri/components/custom_scaffold.dart';
 import 'package:inri/components/loader.dart';
+import 'package:inri/components/text_input.dart';
 import 'package:inri/providers/dashboard_provider.dart';
 import 'package:inri/utils/formatters/date_formater.dart';
 import 'package:inri/utils/snackbar_message.dart';
+import 'package:inri/utils/validators/field_validators.dart';
 import 'package:provider/provider.dart';
 
 class ExportScreen extends StatefulWidget {
@@ -21,7 +23,8 @@ class ExportScreen extends StatefulWidget {
 class _ExportScreenState extends State<ExportScreen> {
   String? _variableName;
   DateTimeRange? _dateRange;
-  String? _exportFormat;
+  final TextEditingController _fileNameController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String get _title => _dateRange != null
       ? '${dateFormat.format(_dateRange!.start)} until ${dateFormat.format(_dateRange!.end)}'
@@ -55,23 +58,29 @@ class _ExportScreenState extends State<ExportScreen> {
             const SizedBox(
               height: 40,
             ),
-            CustomDropdown(
-              _exportFormat,
-              const <String>['PDF', 'CSV'],
-              (value) => setState(() => _exportFormat = value),
-              'Select the export format',
-            ),
+            Form(
+              key: _formKey,
+              child: TextInput(
+                controller: _fileNameController,
+                validator: emptyField,
+                textInputAction: TextInputAction.done,
+                hintText: 'File name',
+                label: 'File name',
+              ),
+            )
           ],
         ),
       ),
       floatingActionButton: Consumer<DashboardProvider>(builder: (context, dashboardProvider, _) {
-        if (dashboardProvider.isLoading) return const Center(child: Loader());
+        if (dashboardProvider.isLoading) return const Loader();
         return FloatingActionButton.extended(
             label: const Text('Export Data'),
             icon: const FaIcon(FontAwesomeIcons.fileExport),
             onPressed: () async {
-              if (_dateRange != null && _variableName != null)
-                return dashboardProvider.exportData(_variableName!, _dateRange!);
+              if (_dateRange != null && _variableName != null) if (_formKey.currentState!.validate())
+                return dashboardProvider
+                    .exportData(_variableName!, _dateRange!, _fileNameController.text)
+                    .catchError((onError) => showSnackbar(context, onError.toString(), messageType.ERROR));
               return showSnackbar(context, 'Please, inform all the variables.', messageType.ERROR);
             });
       }),
