@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inri/components/all_data_tile.dart';
 import 'package:inri/components/custom_scaffold.dart';

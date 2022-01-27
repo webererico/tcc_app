@@ -41,7 +41,7 @@ class _windSpeedScreenState extends State<windSpeedScreen> {
             const SizedBox(
               height: 10,
             ),
-            Divider(),
+            const Divider(),
             const SizedBox(
               height: 10,
             ),

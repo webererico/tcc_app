@@ -6,8 +6,6 @@ import 'package:inri/models/system_status_model.dart';
 import 'package:inri/providers/dashboard_provider.dart';
 import 'package:inri/screens/status/status_screen.dart';
 import 'package:inri/services/weather_service.dart';
-import 'package:inri/utils/formatters/date_formater.dart';
-import 'package:inri/utils/snackbar_message.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/weather.dart';
 

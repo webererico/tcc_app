@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inri/components/custom_scaffold.dart';
 import 'package:inri/components/loader.dart';
-import 'package:inri/models/dashboard_model.dart';
 import 'package:inri/models/system_status_model.dart';
 import 'package:inri/providers/dashboard_provider.dart';
 import 'package:inri/screens/status/components/status_card.dart';

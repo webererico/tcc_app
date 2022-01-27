@@ -34,7 +34,7 @@ Future<DateTimeRange?> _dataPicker(BuildContext context) {
   return showDateRangePicker(
     context: context,
     firstDate: DateTime(2000),
-    lastDate: DateTime.now().add(Duration(days: 1)),
+    lastDate: DateTime.now().add(const Duration(days: 1)),
     cancelText: 'Cancelar',
     saveText: 'Buscar',
     builder: (context, child) {
