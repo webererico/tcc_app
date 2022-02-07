@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
         title: 'INRI',
         theme: theme,
         routes: routes,
+        debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
         home: const LoginScreen(),
       ),

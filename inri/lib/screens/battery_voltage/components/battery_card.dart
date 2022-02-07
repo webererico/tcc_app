@@ -44,3 +44,6 @@ class BatteryCard extends StatelessWidget {
 }
 
 TextStyle get _textStyle => const TextStyle(fontSize: 10);
+
+
+

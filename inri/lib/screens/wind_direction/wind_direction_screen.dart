@@ -1,26 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:inri/components/all_data_tile.dart';
+import 'package:inri/components/custom_dropdown.dart';
 import 'package:inri/components/custom_scaffold.dart';
 import 'package:inri/components/loader.dart';
 import 'package:inri/constants/colors.dart';
 import 'package:inri/constants/data_type.dart';
 import 'package:inri/models/wind_model.dart';
 import 'package:inri/providers/all.dart';
+import 'package:inri/screens/wind_direction/components/direction_graph.dart';
 import 'package:inri/utils/formatters/date_formater.dart';
 import 'dart:math' as math;
 
 import 'package:provider/provider.dart';
 
-class WindDirectionScreen extends StatelessWidget {
-  static const routeName = '/wind-speed-direction-screen';
+class WindDirectionScreen extends StatefulWidget {
+  static const routeName = '/wind-direction-screen';
 
   const WindDirectionScreen({Key? key}) : super(key: key);
+
+  @override
+  State<WindDirectionScreen> createState() => _WindDirectionScreenState();
+}
+
+class _WindDirectionScreenState extends State<WindDirectionScreen> {
+  int _interval = 24;
 
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
       title: 'Wind Direction',
-      body: Container(
+      body: SingleChildScrollView(
           child: FutureBuilder<List<WindModel>>(
         future: Provider.of<WindProvider>(context, listen: false).fetchDirection(),
         builder: (context, snapshot) {
@@ -79,10 +88,25 @@ class WindDirectionScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: Text('Last data: ${dateFormat.format(snapshot.data!.last.createdAt!)}'),
               ),
-              const SizedBox(
-                height: 20,
+              const Divider(),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: CustomDropdown(
+                  _interval.toString(),
+                  const ['24', '12', '6', '3', '1'],
+                  (value) {
+                    setState(() => _interval = int.parse(value!));
+                  },
+                  'Interval in hours',
+                ),
               ),
-              const AllDataTile(dataType: DataType.windDirection)
+              DirectionGraph(
+                snapshot.data!.getRange(snapshot.data!.length - _interval * 60, snapshot.data!.length).toList(),
+              ),
+              const SizedBox(height: 20),
+              const AllDataTile(dataType: DataType.windDirection),
+              const SizedBox(height: 20),
             ],
           );
         },

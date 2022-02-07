@@ -9,7 +9,7 @@ abstract class BaseRepository {
   late Dio dio;
 
   BaseRepository() {
-    dio = HttpHelper(remoteBaseUrl)
+    dio = HttpHelper(localBaseURL)
         .addInterceptor(
           InterceptorsWrapper(
             onRequest: (options, handler) {
@@ -19,7 +19,7 @@ abstract class BaseRepository {
               return handler.next(response);
             },
             onError: (DioError e, handler) async {
-              if (e.response?.statusCode == 500){
+              if (e.response?.statusCode == 500 || e.response?.statusCode == 401){
                 await Prefs.clear();
                 await navigatorKey.currentState?.pushReplacementNamed(LoginScreen.routeName);
 
