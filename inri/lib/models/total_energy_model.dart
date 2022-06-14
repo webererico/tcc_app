@@ -2,22 +2,16 @@ import 'dart:convert';
 
 class TotalEnergyModel {
   int? id;
-  double? max;
-  double? min;
-  double? deviation;
-  double? average;
+  double? value;
   DateTime? createdAt;
   DateTime? updatedAt;
 
-  TotalEnergyModel({this.id, this.max, this.min, this.deviation, this.average, this.createdAt, this.updatedAt});
+  TotalEnergyModel({this.id, this.value, this.createdAt, this.updatedAt});
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'max': max,
-      'min': min,
-      'deviation': deviation,
-      'average': average,
+      'value': value,
       'createdAt': createdAt?.toIso8601String(),
       'updatedAt': updatedAt?.toIso8601String(),
     };
@@ -26,10 +20,7 @@ class TotalEnergyModel {
   factory TotalEnergyModel.fromMap(Map<String, dynamic> map) {
     return TotalEnergyModel(
       id: map['id']?.toInt(),
-      max: map['max']?.toDouble(),
-      min: map['min']?.toDouble(),
-      deviation: map['deviation']?.toDouble(),
-      average: map['average']?.toDouble(),
+      value: map['value']?.toDouble(),
       createdAt: map['created_at'] != null ? DateTime.tryParse(map['created_at']) : null,
       updatedAt: map['updated_at'] != null ? DateTime.tryParse(map['updated_at']) : null,
     );

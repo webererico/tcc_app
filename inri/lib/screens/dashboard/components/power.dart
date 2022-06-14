@@ -57,10 +57,9 @@ class Power extends StatelessWidget {
                 ],
               ),
               Text(
-                '${totalEnergy.average} KWh',
+                '${totalEnergy.value} KWh',
                 style: const TextStyle(fontWeight: FontWeight.bold, color: kPrimaryColor),
               ),
-              maxMin(totalEnergy.max!, totalEnergy.min!),
             ],
           ),
         )

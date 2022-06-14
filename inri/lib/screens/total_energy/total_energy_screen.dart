@@ -9,7 +9,7 @@ import 'package:inri/constants/colors.dart';
 import 'package:inri/constants/data_type.dart';
 import 'package:inri/models/total_energy_model.dart';
 import 'package:inri/providers/total_energy_provider.dart';
-import 'package:inri/screens/total_energy/components/energy_graph.dart';
+import 'package:inri/screens/total_energy/components/energy_bar_chart.dart';
 import 'package:provider/provider.dart';
 
 class TotalEnergyScreen extends StatefulWidget {
@@ -58,7 +58,9 @@ class _TotalEnergyScreenState extends State<TotalEnergyScreen> {
                     color: kSecondaryColor,
                   ),
                 ),
-                EnergyGraph(snapshot.data!.getRange(snapshot.data!.length - _interval*60, snapshot.data!.length).toList()),
+                // EnergyGraph(snapshot.data!.getRange(snapshot.data!.length - _interval*60, snapshot.data!.length).toList()),
+                EnergyBarChart(
+                    snapshot.data!.getRange(snapshot.data!.length - _interval * 60, snapshot.data!.length).toList()),
                 const AllDataTile(
                   dataType: DataType.totalEnergy,
                 ),

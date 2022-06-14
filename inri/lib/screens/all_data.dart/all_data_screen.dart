@@ -24,6 +24,7 @@ class AllDataScreen extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.connectionState != ConnectionState.done) return const Center(child: Loader());
             var _groupList = groupBy(snapshot.data!, (dynamic obj) => formatter.format(obj.createdAt));
+
             return ListView.builder(
               primary: false,
               shrinkWrap: true,
@@ -39,16 +40,22 @@ class AllDataScreen extends StatelessWidget {
                       itemCount: _map.value.length,
                       itemBuilder: (context, index) {
                         final dynamic _data = _map.value.elementAt(index);
+                        Text _title() => _dataType == DataType.totalEnergy
+                            ? Text('${_data.value} ${_dataType.unit}')
+                            : Text('${_data.average} ${_dataType.unit}');
                         return ListTile(
                           onTap: () => _showMyDialog(context, _data, _dataType),
-                          title: Text('Average: ${_data.average} ${_dataType.unit}'),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Max: ${_data.max.toStringAsPrecision(3)} Min: ${_data.min.toStringAsPrecision(3)}'),
-                              Text('Deviation: ${_data.deviation.toStringAsPrecision(3)} ${_dataType.unit}'),
-                            ],
-                          ),
+                          title: _title(),
+                          subtitle: _dataType == DataType.totalEnergy
+                              ? null
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        'Max: ${_data.max.toStringAsPrecision(3)} Min: ${_data.min.toStringAsPrecision(3)}'),
+                                    Text('Deviation: ${_data.deviation.toStringAsPrecision(3)} ${_dataType.unit}'),
+                                  ],
+                                ),
                           trailing: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -100,14 +107,18 @@ Future<void> _showMyDialog(BuildContext context, dynamic value, DataType dataTyp
         title: Text('Saved at: \n${dateFormat.format(value.createdAt)}'),
         content: SingleChildScrollView(
           child: ListBody(
-            children: <Widget>[
-              Text('Average: ${value.average} ${dataType.unit}'),
-              Text('Deviation: ${value.deviation} ${dataType.unit}'),
-              Text('Max: ${value.max} ${dataType.unit}'),
-              Text('Min: ${value.min} ${dataType.unit}'),
-              const Text('Status: Working normal')
-            ],
-          ),
+              children: dataType == DataType.totalEnergy
+                  ? [
+                      Text('Average: ${value.value} ${dataType.unit}'),
+                      const Text('Status: Working normal'),
+                    ]
+                  : [
+                      Text('Average: ${value.average} ${dataType.unit}'),
+                      Text('Deviation: ${value.deviation} ${dataType.unit}'),
+                      Text('Max: ${value.max} ${dataType.unit}'),
+                      Text('Min: ${value.min} ${dataType.unit}'),
+                      const Text('Status: Working normal')
+                    ]),
         ),
         actions: <Widget>[
           TextButton(

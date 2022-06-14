@@ -52,7 +52,7 @@ class Header extends StatelessWidget {
                               ),
                               if (snapshot.data != null)
                                 Text(
-                                  '${snapshot.data!.temperature?.celsius?.toStringAsFixed(2)} ºC',
+                                  '${snapshot.data!.temperature?.celsius?.toStringAsFixed(1)} ºC',
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,

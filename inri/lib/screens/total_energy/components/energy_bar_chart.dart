@@ -4,15 +4,15 @@ import 'package:inri/models/total_energy_model.dart';
 import 'package:inri/utils/formatters/date_formater.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class EnergyGraph extends StatefulWidget {
+class EnergyBarChart extends StatefulWidget {
   final List<TotalEnergyModel> energyData;
-  const EnergyGraph(this.energyData);
+  const EnergyBarChart(this.energyData);
 
   @override
-  _EnergyGraphState createState() => _EnergyGraphState();
+  State<EnergyBarChart> createState() => _EnergyBarChartState();
 }
 
-class _EnergyGraphState extends State<EnergyGraph> {
+class _EnergyBarChartState extends State<EnergyBarChart> {
   bool _showValues = false;
   late ZoomPanBehavior _zoomPanBehavior;
   late List<_ChartData> _averageData;
@@ -21,8 +21,20 @@ class _EnergyGraphState extends State<EnergyGraph> {
   void initState() {
     _zoomPanBehavior = ZoomPanBehavior(
         enableDoubleTapZooming: true, enablePanning: true, enablePinching: true, enableSelectionZooming: true);
-    _averageData = widget.energyData.map((e) => _ChartData(timeFormat.format(e.createdAt!), e.value!)).toList();
+    _averageData =
+        widget.energyData.map((e) => _ChartData(timeFormat.format(e.createdAt!), nextValue(e) - e.value!)).toList();
+    _averageData.removeAt(0);
     super.initState();
+  }
+
+  double nextValue(TotalEnergyModel e) {
+    try {
+      int _index = widget.energyData.indexOf(e);
+      if (_index == widget.energyData.length) return 0;
+      return widget.energyData.elementAt(_index + 1).value!;
+    } on RangeError {
+      return widget.energyData.last.value!;
+    }
   }
 
   @override
@@ -43,17 +55,18 @@ class _EnergyGraphState extends State<EnergyGraph> {
             height: 350,
             child: SfCartesianChart(
               zoomPanBehavior: _zoomPanBehavior,
-              primaryXAxis: CategoryAxis(),
-              tooltipBehavior: TooltipBehavior(enable: true),
-              series: <ChartSeries<_ChartData, String>>[
-                  LineSeries<_ChartData, String>(
-                    dataSource: _averageData,
-                    xValueMapper: (_ChartData sales, _) => sales.date,
-                    yValueMapper: (_ChartData sales, _) => sales.value,
-                    color: kSecondaryColor,
-                    name: 'Average',
-                    dataLabelSettings: DataLabelSettings(isVisible: _showValues),
-                  ),
+              series: <ChartSeries>[
+                HistogramSeries<_ChartData, String>(
+                  dataSource: _averageData,
+                  yValueMapper: (_ChartData sales, _) {
+                    return sales.value;
+                  },
+                  binInterval: 10,
+                  spacing: 10,
+                  showNormalDistributionCurve: true,
+                  curveColor: const Color.fromRGBO(192, 108, 132, 1),
+                  borderWidth: 10,
+                ),
               ],
             ),
           ),
