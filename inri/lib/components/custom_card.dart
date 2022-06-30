@@ -10,10 +10,11 @@ class CustomCard extends StatelessWidget {
   final Widget? leading;
 
   const CustomCard(this.data, this.dataType, {this.leading, this.value});
-  Text get _title =>  dataType == DataType.totalEnergy ? Text('${data.value} ${dataType.unit}') :  Text('${data.average} ${dataType.unit}');
+  Text get _title => dataType == DataType.totalEnergy
+      ? Text('${data.value} ${dataType.unit}')
+      : Text('${data.average} ${dataType.unit}');
   @override
   Widget build(BuildContext context) {
-    
     return Card(
       color: kSecondaryColor.withOpacity(0.1),
       elevation: 0,
@@ -30,10 +31,6 @@ class CustomCard extends StatelessWidget {
                     'Min: ${data.min} Max: ${data.max}',
                     style: _textStyle,
                   ),
-                  Text(
-                    'Deviation: ${data.deviation.toStringAsFixed(3)}',
-                    style: _textStyle,
-                  )
                 ],
               ),
         trailing: Text(
@@ -46,4 +43,4 @@ class CustomCard extends StatelessWidget {
   }
 }
 
-TextStyle get _textStyle => const TextStyle(fontSize: 10);
+TextStyle get _textStyle => const TextStyle(fontSize: 14);

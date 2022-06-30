@@ -27,10 +27,6 @@ class BatteryCard extends StatelessWidget {
               'Min: ${batteryModel.min} Max: ${batteryModel.max}',
               style: _textStyle,
             ),
-            Text(
-              'Deviation: ${batteryModel.deviation!.toStringAsFixed(3)}',
-              style: _textStyle,
-            )
           ],
         ),
         trailing: Text(
@@ -43,7 +39,4 @@ class BatteryCard extends StatelessWidget {
   }
 }
 
-TextStyle get _textStyle => const TextStyle(fontSize: 10);
-
-
-
+TextStyle get _textStyle => const TextStyle(fontSize: 14);
